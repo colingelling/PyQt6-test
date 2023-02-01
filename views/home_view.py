@@ -7,7 +7,8 @@ Created by Colin Gelling on 30/1/2023
 import sys
 
 from PyQt6 import QtCore, QtWidgets
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtGui import QAction
+from PyQt6.QtWidgets import QApplication, QPushButton
 
 import core.Models.Views.HomeModel as HomeModel
 
@@ -23,6 +24,8 @@ class HomeView(QtWidgets.QWidget):
         self.ui()
         self.content()
 
+        self.switch_window.connect(self.refer_login_route)
+
     def ui(self):
         self.view_ui.setup_ui()
         self.view_ui.show()
@@ -30,6 +33,19 @@ class HomeView(QtWidgets.QWidget):
     def content(self):
 
         self.view_ui.setWindowTitle("Home: My first PyQt6 program!")
+
+        # Navigation
+
+        menubar = self.view_ui.home_ui.menuBar
+
+        menu_home = menubar.addMenu("Home")
+        menu_home.setObjectName("menuBarHomeTab")
+        menu_home.triggered.connect(self.refer_login_route)
+
+        menubar.addAction(menu_home)
+        menubar.addSeparator()
+
+        # Navigation end
 
         # Set text for the first label (first tab)
         self.view_ui.home_ui.homeIntroLabelTabTitle_1.setText("Welcome")
@@ -57,6 +73,12 @@ class HomeView(QtWidgets.QWidget):
         self.view_ui.home_ui.homeIntroLongTextTab_2.setText(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         )
+
+    def refer_login_route(self):
+        from router.routes import Routes as route
+        ui = self.view_ui
+        route.login()
+        ui.close()
 
 
 app = QApplication(sys.argv)

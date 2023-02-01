@@ -1,4 +1,4 @@
-# Form implementation generated from reading gui file '/home/colin/Python/Projects/LearningQt/views/login.gui'
+# Form implementation generated from reading ui file '/home/colin/Python/Projects/Pycharm/Other/Learning/LearningQt/src/gui/ui/login/login_view.ui'
 #
 # Created by: PyQt6 UI code generator 6.1.0
 #
@@ -15,6 +15,33 @@ class Ui_LoginWindow(object):
         LoginWindow.resize(903, 678)
         self.centralwidget = QtWidgets.QWidget(LoginWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.LoginFormUsernameLineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.LoginFormUsernameLineEdit.setGeometry(QtCore.QRect(30, 160, 851, 41))
+        self.LoginFormUsernameLineEdit.setObjectName("LoginFormUsernameLineEdit")
+        self.LoginViewTitleLabel = QtWidgets.QLabel(self.centralwidget)
+        self.LoginViewTitleLabel.setGeometry(QtCore.QRect(30, 20, 111, 21))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        self.LoginViewTitleLabel.setFont(font)
+        self.LoginViewTitleLabel.setObjectName("LoginViewTitleLabel")
+        self.LoginViewDescriptionLabel = QtWidgets.QLabel(self.centralwidget)
+        self.LoginViewDescriptionLabel.setGeometry(QtCore.QRect(30, 60, 71, 21))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.LoginViewDescriptionLabel.setFont(font)
+        self.LoginViewDescriptionLabel.setObjectName("LoginViewDescriptionLabel")
+        self.LoginFormPasswordLineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.LoginFormPasswordLineEdit.setGeometry(QtCore.QRect(30, 270, 851, 41))
+        self.LoginFormPasswordLineEdit.setObjectName("LoginFormPasswordLineEdit")
+        self.LoginFormUsernameLabel = QtWidgets.QLabel(self.centralwidget)
+        self.LoginFormUsernameLabel.setGeometry(QtCore.QRect(30, 140, 67, 17))
+        self.LoginFormUsernameLabel.setObjectName("LoginFormUsernameLabel")
+        self.LoginFormPasswordLabel = QtWidgets.QLabel(self.centralwidget)
+        self.LoginFormPasswordLabel.setGeometry(QtCore.QRect(30, 250, 67, 17))
+        self.LoginFormPasswordLabel.setObjectName("LoginFormPasswordLabel")
+        self.LoginFormSubmitBtn = QtWidgets.QPushButton(self.centralwidget)
+        self.LoginFormSubmitBtn.setGeometry(QtCore.QRect(360, 430, 191, 71))
+        self.LoginFormSubmitBtn.setObjectName("LoginFormSubmitBtn")
         LoginWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(LoginWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 903, 22))
@@ -39,6 +66,11 @@ class Ui_LoginWindow(object):
     def retranslateUi(self, LoginWindow):
         _translate = QtCore.QCoreApplication.translate
         LoginWindow.setWindowTitle(_translate("LoginWindow", "MainWindow"))
+        self.LoginViewTitleLabel.setText(_translate("LoginWindow", "TextLabel"))
+        self.LoginViewDescriptionLabel.setText(_translate("LoginWindow", "TextLabel"))
+        self.LoginFormUsernameLabel.setText(_translate("LoginWindow", "TextLabel"))
+        self.LoginFormPasswordLabel.setText(_translate("LoginWindow", "TextLabel"))
+        self.LoginFormSubmitBtn.setText(_translate("LoginWindow", "PushButton"))
         self.menuHome.setTitle(_translate("LoginWindow", "Home"))
         self.menuLogin.setTitle(_translate("LoginWindow", "User accounts"))
         self.actionLogin.setText(_translate("LoginWindow", "Login"))

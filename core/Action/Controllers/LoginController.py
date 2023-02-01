@@ -10,7 +10,6 @@ import views.login_view as LoginView
 
 class LoginController:
     def __init__(self):
-        super(LoginController, self).__init__()
         self.pointer()
 
     @staticmethod

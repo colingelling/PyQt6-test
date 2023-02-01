@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LoginWindow</class>
- <widget class="QMainWindow" name="LoginWindow">
+ <class>RegisterWindow</class>
+ <widget class="QMainWindow" name="RegisterWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,21 +14,11 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="LoginFormUsernameLineEdit">
+   <widget class="QLabel" name="RegisterViewTitleLabel">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>160</y>
-      <width>851</width>
-      <height>41</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="LoginViewTitleLabel">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>20</y>
+      <x>20</x>
+      <y>30</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -42,13 +32,13 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QLabel" name="LoginViewDescriptionLabel">
+   <widget class="QLabel" name="RegisterViewDescriptionLabel">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>60</y>
+      <x>20</x>
+      <y>70</y>
       <width>71</width>
-      <height>21</height>
+      <height>16</height>
      </rect>
     </property>
     <property name="font">
@@ -60,21 +50,77 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="LoginFormPasswordLineEdit">
+   <widget class="QLineEdit" name="RegisterFormFirstnameLineEdit">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>270</y>
+      <x>20</x>
+      <y>170</y>
+      <width>311</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RegisterFormFirstnameLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RegisterFormUsernameLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>260</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="RegisterFormUsernameLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>280</y>
       <width>851</width>
       <height>41</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="LoginFormUsernameLabel">
+   <widget class="QLineEdit" name="RegisterFormSuffixLineEdit">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>140</y>
+      <x>340</x>
+      <y>170</y>
+      <width>211</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="RegisterFormLastnameLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>170</y>
+      <width>311</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RegisterFormSuffixLabel">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>150</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -83,11 +129,11 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QLabel" name="LoginFormPasswordLabel">
+   <widget class="QLabel" name="RegisterFormLastnameLabel">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>250</y>
+      <x>560</x>
+      <y>150</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -96,11 +142,34 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="LoginFormSubmitBtn">
+   <widget class="QLineEdit" name="RegisterFormPasswordLineEdit">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>430</y>
+      <x>20</x>
+      <y>390</y>
+      <width>851</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RegisterFormPasswordLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>370</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RegisterFormSubmitBtn">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>520</y>
       <width>191</width>
       <height>71</height>
      </rect>

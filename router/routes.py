@@ -18,6 +18,6 @@ class Routes:
         LoginController.LoginController()
 
     @staticmethod
-    def test():
-        import core.Action.Controllers.TestController as TestController
-        TestController.TestController()
+    def register():
+        import core.Action.Controllers.RegisterController as RegisterController
+        RegisterController.RegisterController()

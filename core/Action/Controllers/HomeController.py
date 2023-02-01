@@ -10,7 +10,6 @@ import views.home_view as HomeView
 
 class HomeController:
     def __init__(self):
-        super(HomeController, self).__init__()
         self.pointer()
 
     @staticmethod
