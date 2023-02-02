@@ -54,7 +54,6 @@ class LoginView(QtWidgets.QWidget):
     def close_window(self):
         ui = self.view_ui
         ui.close()
-        self.close()
 
     def refer_home_route(self):
         from router.routes import Routes as route

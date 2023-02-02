@@ -39,7 +39,8 @@ class HomeView(QtWidgets.QWidget):
         menubar = self.view_ui.home_ui.menuBar
 
         button_home = QAction("Home", self)
-        button_home.triggered.connect(self.refer_home_route) # TODO: fix error -> AttributeError: module 'core.Action.Controllers.HomeController' has no attribute 'HomeController'
+        button_home.triggered.connect(self.refer_home_route)
+        # TODO: fix error -> AttributeError: module 'core.Action.Controllers.HomeController' has no attribute 'HomeController'
 
         button_login = QAction("Login", self)
         button_login.triggered.connect(self.refer_login_route)
@@ -87,7 +88,6 @@ class HomeView(QtWidgets.QWidget):
     def close_window(self):
         ui = self.view_ui
         ui.close()
-        self.close()
 
     def refer_home_route(self):
         from router.routes import Routes as route

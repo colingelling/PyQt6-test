@@ -12,4 +12,4 @@ import bootstrap.bootstrapper as Bootstrapper
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     Bootstrapper.Bootstrapper()
-    app.exec()
+    sys.exit(app.exec())
