@@ -15,11 +15,11 @@ class RegisterModel(QMainWindow):
     def __init__(self):
         super(RegisterModel, self).__init__()
 
-        self.home_ui = Ui_RegisterWindow()
+        self.register_ui = Ui_RegisterWindow()
         self.ui()
 
     def setup_ui(self):
-        self.home_ui.setupUi(self)
+        self.register_ui.setupUi(self)
 
     def ui(self):
         return self.setup_ui()

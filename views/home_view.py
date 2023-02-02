@@ -20,11 +20,11 @@ class HomeView(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(HomeView, self).__init__(parent)
 
+        self.switch_window.connect(self.refer_login_route)
+
         self.view_ui = HomeModel.HomeModel()
         self.ui()
         self.content()
-
-        self.switch_window.connect(self.refer_login_route)
 
     def ui(self):
         self.view_ui.setup_ui()
@@ -38,12 +38,22 @@ class HomeView(QtWidgets.QWidget):
 
         menubar = self.view_ui.home_ui.menuBar
 
-        menu_home = menubar.addMenu("Home")
-        menu_home.setObjectName("menuBarHomeTab")
-        menu_home.triggered.connect(self.refer_login_route)
+        button_home = QAction("Home", self)
+        button_home.triggered.connect(self.refer_home_route) # TODO: fix error -> AttributeError: module 'core.Action.Controllers.HomeController' has no attribute 'HomeController'
 
-        menubar.addAction(menu_home)
-        menubar.addSeparator()
+        button_login = QAction("Login", self)
+        button_login.triggered.connect(self.refer_login_route)
+
+        button_register = QAction("Register", self)
+        button_register.triggered.connect(self.refer_register_route)
+
+        # button_register.triggered.signal(lambda: self.close())
+
+        menubar.addAction(button_home)
+        menubar.addAction(button_login)
+        menubar.addAction(button_register)
+
+        # menubar.addAction(trigger_login)
 
         # Navigation end
 
@@ -74,13 +84,25 @@ class HomeView(QtWidgets.QWidget):
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         )
 
+    def close_window(self):
+        ui = self.view_ui
+        ui.close()
+        self.close()
+
+    def refer_home_route(self):
+        from router.routes import Routes as route
+        route.home()
+        self.close_window()
+
     def refer_login_route(self):
         from router.routes import Routes as route
-        ui = self.view_ui
         route.login()
-        ui.close()
+        self.close_window()
+
+    def refer_register_route(self):
+        from router.routes import Routes as route
+        route.register()
+        self.close_window()
 
 
-app = QApplication(sys.argv)
 window = HomeView()
-app.exec()
