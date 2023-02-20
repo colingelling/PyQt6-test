@@ -62,8 +62,10 @@ class HomeView(QMainWindow):
         # Divide the text over multiple lines instead of one limited by an x amount of characters
         self.ui.homeIntroLongTextTab_1.setWordWrap(1)
         self.ui.homeIntroLongTextTab_1.setText(
-            "This application is a practice program in order to learn the Python language including OOP terms and most of all knowing what to do with PyQt6"
-        )
+            "This application is a practice program in order to learn the Python language including OOP terms and most "
+            "of all knowing what to do with PyQt6."
+            "This application serves the ability to register an account whether you can sign in afterwards."
+        )  # TODO: Fix height
 
         # The following block has the same rules as the code described above this text
 

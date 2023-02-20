@@ -77,7 +77,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>260</y>
+      <y>250</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -90,7 +90,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>280</y>
+      <y>270</y>
       <width>851</width>
       <height>41</height>
      </rect>
@@ -142,21 +142,21 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="RegisterFormPasswordLineEdit">
+   <widget class="QLineEdit" name="RegisterFormEmailLineEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>390</y>
+      <y>370</y>
       <width>851</width>
       <height>41</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="RegisterFormPasswordLabel_2">
+   <widget class="QLabel" name="RegisterFormEmailLabel">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>370</y>
+      <y>350</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -169,13 +169,36 @@
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>520</y>
+      <y>560</y>
       <width>191</width>
       <height>71</height>
      </rect>
     </property>
     <property name="text">
      <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="RegisterFormPasswordLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>470</y>
+      <width>851</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RegisterFormPasswordLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>450</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
     </property>
    </widget>
   </widget>

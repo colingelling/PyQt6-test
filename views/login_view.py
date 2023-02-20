@@ -42,6 +42,20 @@ class LoginView(QMainWindow):
         menubar.addAction(button_register)
         menubar.addAction(button_login)
 
+        self.ui.LoginViewTitleLabel.setText("Login")
+        self.ui.LoginViewTitleLabel.adjustSize()
+
+        self.ui.LoginViewDescriptionLabel.setText("Sign in to your account")
+        self.ui.LoginViewDescriptionLabel.adjustSize()
+
+        self.ui.LoginFormUsernameLabel.setText("Username or email address")
+        self.ui.LoginFormUsernameLabel.adjustSize()
+
+        self.ui.LoginFormPasswordLabel.setText("Password")
+        self.ui.LoginFormPasswordLabel.adjustSize()
+
+        self.ui.LoginFormSubmitBtn.setText("Sign in")
+
     def submit(self):
         pass
 

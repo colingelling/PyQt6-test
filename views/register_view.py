@@ -42,6 +42,32 @@ class RegisterView(QMainWindow):
         menubar.addAction(button_register)
         menubar.addAction(button_login)
 
+        self.ui.RegisterViewTitleLabel.setText("Register")
+        self.ui.RegisterViewTitleLabel.adjustSize()
+
+        self.ui.RegisterViewDescriptionLabel.setText("Create an account")
+        self.ui.RegisterViewDescriptionLabel.adjustSize()
+
+        self.ui.RegisterFormFirstnameLabel.setText("Firstname")
+        self.ui.RegisterFormFirstnameLabel.adjustSize()
+
+        self.ui.RegisterFormSuffixLabel.setText("Suffix")
+        self.ui.RegisterFormSuffixLabel.adjustSize()
+
+        self.ui.RegisterFormLastnameLabel.setText("Lastname")
+        self.ui.RegisterFormLastnameLabel.adjustSize()
+
+        self.ui.RegisterFormUsernameLabel.setText("Username")
+        self.ui.RegisterFormUsernameLabel.adjustSize()
+
+        self.ui.RegisterFormEmailLabel.setText("Email address")
+        self.ui.RegisterFormEmailLabel.adjustSize()
+
+        self.ui.RegisterFormPasswordLabel.setText("Password")
+        self.ui.RegisterFormPasswordLabel.adjustSize()
+
+        self.ui.RegisterFormSubmitBtn.setText("Register account")
+
     def switch_first_window(self):
         self.switch_first.emit()
 
