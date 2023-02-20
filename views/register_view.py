@@ -1,6 +1,7 @@
 """
 
 Created by Colin Gelling on 30/1/2023
+Using Pycharm Professional
 
 """
 from PyQt6 import QtCore
