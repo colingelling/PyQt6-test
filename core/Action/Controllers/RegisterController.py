@@ -1,17 +1,20 @@
 """
 
-Created by Colin Gelling on 31/1/2023
+Created by Colin Gelling on 30/1/2023
 
 """
 
+from PyQt6 import QtCore
 
-import views.register_view as RegisterView
+from views.register_view import RegisterView
 
 
 class RegisterController:
-    def __init__(self):
-        self.pointer()
 
-    @staticmethod
-    def pointer():
-        return RegisterView.RegisterView()
+    def __init__(self):
+        pass
+
+    def show_window(self):
+        return print('test')
+        # self.window = RegisterView()
+        # self.window.show()

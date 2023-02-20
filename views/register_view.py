@@ -3,97 +3,105 @@
 Created by Colin Gelling on 30/1/2023
 
 """
-
-import sys
-
-from PyQt6 import QtCore, QtWidgets
+from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
-from PyQt6.QtWidgets import QApplication
-
-import core.Models.Views.RegisterModel as RegisterModel
+from PyQt6.QtWidgets import QMainWindow
 
 
-class RegisterView(QtWidgets.QWidget):
+class RegisterView(QMainWindow):
 
-    switch_window = QtCore.pyqtSignal(str)
+    switch_first = QtCore.pyqtSignal()
+    switch_second = QtCore.pyqtSignal()
+    switch_third = QtCore.pyqtSignal()
 
-    def __init__(self, parent=None):
-        super(RegisterView, self).__init__(parent)
+    def __init__(self):
+        super().__init__()
 
-        self.view_ui = RegisterModel.RegisterModel()
-        self.ui()
+        from src.gui.ui.register.register_view import Ui_RegisterWindow
+        self.ui = Ui_RegisterWindow()
+        self.ui.setupUi(self)
+
         self.content()
 
-        self.switch_window.connect(self.submit)
-
-    def ui(self):
-        self.view_ui.setup_ui()
-        self.view_ui.show()
-
     def content(self):
-        self.view_ui.setWindowTitle('Register')
+        self.setWindowTitle('Register')
 
-        menubar = self.view_ui.register_ui.menuBar
+        # Navigation
 
         button_home = QAction("Home", self)
-        button_home.triggered.connect(self.refer_home_route)
-
-        """
-        TODO: 
-
-        1. Fix error -> AttributeError: module 'core.Action.Controllers.HomeController' has no attribute 'HomeController'
-        2. As of feb/1, this description has been returned without any error
-
-        What changed? Reference (https://github.com/colingelling/PyQt6-test/blob/main/views/home_view.py)
-        - Compare the main.py from this version to the main.py from https://github.com/colingelling/PyQt6-test and check 
-        the bottom of the reference mentioned above this line
-        
-        Also, navigating between windows doesn't work properly as of now; 
-        - Going from Home (launching state) to Login, to Register back to Login or either, closes the application 
-        instead of keeping the event loop going
-        - When clicking on the Home tab the application almost always closes instead of:
-        1. Staying within the Home Window when triggered from the same window
-        2. Returning to the Home window when triggered from another window
-        
-        Frank and Leon advised me to look into Event Handling more, maybe the first started Event 
-        (According to Home route starting within Bootstrapper.py) must be closed before returning to it later.
-        
-        Also Leon mentioned that the application has been started within the main, maybe that each window is going to be 
-        setup the same way as it did for the first launch. 
-
-        """
-
-        button_login = QAction("Login", self)
-        button_login.triggered.connect(self.refer_login_route)
-
         button_register = QAction("Register", self)
-        button_register.triggered.connect(self.refer_register_route)
+        button_login = QAction("Login", self)
 
+        button_home.triggered.connect(self.switch_first_window)
+        button_register.triggered.connect(self.switch_second_window)
+        button_login.triggered.connect(self.switch_third_window)
+
+        menubar = self.ui.menuBar
         menubar.addAction(button_home)
-        menubar.addAction(button_login)
         menubar.addAction(button_register)
+        menubar.addAction(button_login)
 
-    def submit(self):
+    def switch_first_window(self):
+        self.switch_first.emit()
+
+    def switch_second_window(self):
+        self.switch_second.emit()
+
+    def switch_third_window(self):
+        self.switch_third.emit()
+
+
+class Controller:
+
+    def __init__(self):
         pass
 
-    def close_window(self):
-        ui = self.view_ui
-        ui.close()
+    # Instantiate the window Classes per method from now on, bind the windows to individual signals and show the window
 
-    def refer_home_route(self):
-        from router.routes import Routes as route
-        route.home()
-        self.close_window()
+    def show_main_window(self):
+        from views.home_view import HomeView
+        self.main_window = HomeView()
+        self.main_window.switch_second.connect(self.show_second_window)
+        self.main_window.switch_third.connect(self.show_third_window)
+        self.main_window.show()
 
-    def refer_login_route(self):
-        from router.routes import Routes as route
-        route.login()
-        self.close_window()
+        self.second_window = RegisterView()
+        if self.second_window.isVisible():
+            self.second_window.hide()
 
-    def refer_register_route(self):
-        from router.routes import Routes as route
-        route.register()
-        self.close_window()
+        from views.login_view import LoginView
+        self.third_window = LoginView()
+        if self.third_window.isVisible():
+            self.third_window.hide()
 
+    def show_second_window(self):
+        self.second_window = RegisterView()
+        self.second_window.switch_first.connect(self.show_main_window)
+        self.second_window.switch_third.connect(self.show_third_window)
+        self.second_window.show()
 
-window = RegisterView()
+        from views.home_view import HomeView
+        self.main_window = HomeView()
+        if self.main_window.isVisible():
+            self.main_window.hide()
+
+        from views.login_view import LoginView
+        self.third_window = LoginView()
+        if self.third_window.isVisible():
+            self.third_window.hide()
+
+    def show_third_window(self):
+        from views.login_view import LoginView
+        self.third_window = LoginView()
+        self.third_window.switch_first.connect(self.show_main_window)
+        self.third_window.switch_second.connect(self.show_second_window)
+        self.third_window.show()
+
+        from views.home_view import HomeView
+        self.main_window = HomeView()
+        if self.main_window.isVisible():
+            self.main_window.hide()
+
+        self.third_window = RegisterView()
+        if self.third_window.isVisible():
+            self.third_window.hide()
