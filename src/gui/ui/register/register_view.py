@@ -58,7 +58,7 @@ class Ui_RegisterWindow(object):
         self.RegisterFormEmailLabel.setGeometry(QtCore.QRect(20, 350, 67, 17))
         self.RegisterFormEmailLabel.setObjectName("RegisterFormEmailLabel")
         self.RegisterFormSubmitBtn = QtWidgets.QPushButton(self.centralwidget)
-        self.RegisterFormSubmitBtn.setGeometry(QtCore.QRect(320, 560, 191, 71))
+        self.RegisterFormSubmitBtn.setGeometry(QtCore.QRect(330, 560, 191, 71))
         self.RegisterFormSubmitBtn.setObjectName("RegisterFormSubmitBtn")
         self.RegisterFormPasswordLineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.RegisterFormPasswordLineEdit.setGeometry(QtCore.QRect(20, 470, 851, 41))

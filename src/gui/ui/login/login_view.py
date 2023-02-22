@@ -40,7 +40,7 @@ class Ui_LoginWindow(object):
         self.LoginFormPasswordLabel.setGeometry(QtCore.QRect(30, 250, 67, 17))
         self.LoginFormPasswordLabel.setObjectName("LoginFormPasswordLabel")
         self.LoginFormSubmitBtn = QtWidgets.QPushButton(self.centralwidget)
-        self.LoginFormSubmitBtn.setGeometry(QtCore.QRect(360, 430, 191, 71))
+        self.LoginFormSubmitBtn.setGeometry(QtCore.QRect(350, 560, 191, 71))
         self.LoginFormSubmitBtn.setObjectName("LoginFormSubmitBtn")
         LoginWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(LoginWindow)
