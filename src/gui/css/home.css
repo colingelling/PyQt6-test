@@ -37,3 +37,11 @@
     margin: 0;
 }
 
+#homeTabWidgetFrame {
+    border: none;
+}
+
+#homeViewTitleWidget {
+    border: none;
+}
+

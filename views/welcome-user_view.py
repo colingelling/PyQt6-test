@@ -1,15 +1,16 @@
 """
 
-Created by Colin Gelling on 30/1/2023
+Created by Colin Gelling on 01/1/2023
 Using Pycharm Professional
 
 """
+
 from PyQt6 import QtCore
-from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtGui import QAction
 
 
-class LoginView(QMainWindow):
+class HomeView(QMainWindow):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()
@@ -19,25 +20,26 @@ class LoginView(QMainWindow):
         super().__init__()
 
         # load the layout
-        from src.gui.ui.login.login_view import Ui_LoginWindow
-        self.ui = Ui_LoginWindow()
+        from src.gui.ui.user.welcome_view import Ui_WelcomeUserWindow
+        self.ui = Ui_WelcomeUserWindow()
         self.ui.setupUi(self)
 
         # import CSS file
-        css_file = "src/gui/css/login.css"
+        css_file = "src/gui/css/home.css"
         with open(css_file, "r") as fh:
             self.setStyleSheet(fh.read())
 
         self.content()
 
     def content(self):
-        window_title = 'Login'
+
+        window_title = 'Welcomed user'
 
         self.setWindowTitle(f"{window_title}: My first PyQt6 program!")
 
         # Navigation
 
-        button_home = QAction("Home", self)
+        button_home = QAction(f"{window_title}", self)
         button_register = QAction("Register", self)
         button_login = QAction("Login", self)
 
@@ -50,22 +52,7 @@ class LoginView(QMainWindow):
         menubar.addAction(button_register)
         menubar.addAction(button_login)
 
-        self.ui.LoginViewTitleLabel.setText("Login")
-        self.ui.LoginViewTitleLabel.adjustSize()
-
-        self.ui.LoginViewDescriptionLabel.setText("Sign in to your account")
-        self.ui.LoginViewDescriptionLabel.adjustSize()
-
-        self.ui.LoginFormUsernameLabel.setText("Username or email address")
-        self.ui.LoginFormUsernameLabel.adjustSize()
-
-        self.ui.LoginFormPasswordLabel.setText("Password")
-        self.ui.LoginFormPasswordLabel.adjustSize()
-
-        self.ui.LoginFormSubmitBtn.setText("Sign in")
-
-    def submit(self):
-        pass
+        # Navigation end
 
     def switch_first_window(self):
         self.switch_first.emit()
