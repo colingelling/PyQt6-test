@@ -4,16 +4,14 @@ Created by Colin Gelling on 30/1/2023
 Using Pycharm Professional
 
 """
-from PyQt6 import QtCore, QtSql
-from PyQt6.QtCore import QFile
+from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
-from PyQt6.QtSql import QSqlDatabase, QSqlQuery
-from PyQt6.QtWidgets import QMainWindow, QPushButton
+from PyQt6.QtWidgets import QMainWindow
 
-from core.Models.RegisterModel import RegisterModel
+from core.Models.User import User
 
 
-class RegisterView(QMainWindow, RegisterModel):
+class RegisterView(QMainWindow, User):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()
@@ -75,26 +73,38 @@ class RegisterView(QMainWindow, RegisterModel):
         self.form_data['confirmed_password'] = self.ui.RegisterFormPasswordLineEdit_2
         self.form_data['confirmed_password'].setEchoMode(self.ui.RegisterFormPasswordLineEdit_2.EchoMode.Password)
 
+        from PyQt6.QtCore import Qt
+
+        # TODO: Need to check setFocusPolicy on form fields, not working properly
+
         self.ui.RegisterFormFirstnameLabel.setText("Firstname")
         self.ui.RegisterFormFirstnameLabel.adjustSize()
+        self.ui.RegisterFormFirstnameLineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.ui.RegisterFormFirstnameLineEdit.setFocus()
 
         self.ui.RegisterFormSuffixLabel.setText("Suffix")
         self.ui.RegisterFormSuffixLabel.adjustSize()
+        self.ui.RegisterFormSuffixLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
         self.ui.RegisterFormLastnameLabel.setText("Lastname")
         self.ui.RegisterFormLastnameLabel.adjustSize()
+        self.ui.RegisterFormLastnameLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
         self.ui.RegisterFormUsernameLabel.setText("Username")
         self.ui.RegisterFormUsernameLabel.adjustSize()
+        self.ui.RegisterFormUsernameLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
         self.ui.RegisterFormEmailLabel.setText("Email address")
         self.ui.RegisterFormEmailLabel.adjustSize()
+        self.ui.RegisterFormEmailLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
         self.ui.RegisterFormPasswordLabel_1.setText("Password")
         self.ui.RegisterFormPasswordLabel_1.adjustSize()
+        self.ui.RegisterFormPasswordLineEdit_1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
         self.ui.RegisterFormPasswordLabel_2.setText("Confirm password")
         self.ui.RegisterFormPasswordLabel_2.adjustSize()
+        self.ui.RegisterFormPasswordLineEdit_2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
         # open the database connection
         self.open_connection()

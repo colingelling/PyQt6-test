@@ -1,11 +1,9 @@
-from PyQt6.QtSql import QSqlQuery, QSqlDatabase
-
 from core.Action.Connectors.DatabaseConnector import DatabaseConnector
 
 
-class RegisterModel(DatabaseConnector):
+class User(DatabaseConnector):
     def __init__(self):
-        super(RegisterModel, self).__init__()
+        super(User, self).__init__()
 
         self.form_data = {}  # TODO: make sure for safety purposes that this will be emptied afterwards
 
@@ -37,6 +35,16 @@ class RegisterModel(DatabaseConnector):
         email = self.form_data['email'].text()
         password = self.form_data['password'].text()
 
+        import bcrypt
+        field_to_encrypt = password
+        change_format = "{}".format(field_to_encrypt)
+        encrypted_password = field_to_encrypt.encode('utf-8')
+        salt_object = bcrypt.gensalt(rounds=16)
+        hashed_str = bcrypt.hashpw(encrypted_password, salt_object)
+        bytes = hashed_str.decode("utf-8")
+
+        print("The encrypted text or password is: {}".format(bytes))
+
         if self.db.open():
             # include database query functionality and database, set a query afterwards for creating a user account
             from PyQt6 import QtSql
@@ -53,5 +61,5 @@ class RegisterModel(DatabaseConnector):
             pointer.bindValue(':lastname', lastname)
             pointer.bindValue(':username', username)
             pointer.bindValue(':email', email)
-            pointer.bindValue(':password', password)
+            pointer.bindValue(':password', str(bytes))
             pointer.exec()

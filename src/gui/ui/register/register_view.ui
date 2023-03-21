@@ -110,7 +110,11 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLineEdit" name="RegisterFormFirstnameLineEdit"/>
+          <widget class="QLineEdit" name="RegisterFormFirstnameLineEdit">
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -126,7 +130,11 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLineEdit" name="RegisterFormSuffixLineEdit"/>
+          <widget class="QLineEdit" name="RegisterFormSuffixLineEdit">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -193,6 +201,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
            </property>
           </widget>
          </item>
@@ -277,6 +288,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
            </property>
           </widget>
          </item>
@@ -384,6 +398,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
           </widget>
          </item>
          <item row="0" column="0">
@@ -455,6 +472,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
            </property>
           </widget>
          </item>
@@ -649,6 +669,9 @@
            <height>31</height>
           </rect>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>PushButton</string>
          </property>
@@ -705,18 +728,28 @@
         </widget>
        </widget>
       </item>
-      <item row="11" column="3" rowspan="2" colspan="16">
+      <item row="11" column="2" rowspan="2" colspan="17">
        <widget class="QWidget" name="widget_8" native="true">
         <layout class="QGridLayout" name="gridLayout_9">
          <item row="0" column="0">
           <widget class="QLabel" name="RegisterFormPasswordLabel_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string>TextLabel</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLineEdit" name="RegisterFormPasswordLineEdit_2"/>
+          <widget class="QLineEdit" name="RegisterFormPasswordLineEdit_2">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>

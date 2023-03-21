@@ -12,6 +12,10 @@ class DatabaseConnector:
         self.db = QSqlDatabase.addDatabase('QSQLITE')
 
     def open_connection(self):
+        # TODO: build in check for ensuring that the connection is already open or not (in case of window changes)
+        # (for suppressing 'QSqlDatabasePrivate::addDatabase: duplicate connection name 'qt_sql_default_connection' -
+        # warnings)
+
         db = self.db
         db.setDatabaseName(self.db_file)
 
