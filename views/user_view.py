@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtGui import QAction
 
 
-class HomeView(QMainWindow):
+class UserView(QMainWindow):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()

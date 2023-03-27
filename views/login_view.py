@@ -17,6 +17,8 @@ class LoginView(QMainWindow, User):
     switch_second = QtCore.pyqtSignal()
     switch_third = QtCore.pyqtSignal()
 
+    loggedSignal = QtCore.pyqtSignal()
+
     def __init__(self):
         super(LoginView, self).__init__()
 
@@ -100,9 +102,8 @@ class LoginView(QMainWindow, User):
             # TODO: improve indexing rows
 
             for row in rows:
-                if row[0] == username:
-                    print('')
                 if row[0] == username and bcrypt.checkpw(password.encode('utf-8'), row[1].encode('utf-8')):
+                    self.trigger_login()
                     print('The username has been found in the database and the password matches with it!')
                     print('Login successful!')
                 else:
@@ -116,3 +117,6 @@ class LoginView(QMainWindow, User):
 
     def switch_third_window(self):
         self.switch_third.emit()
+
+    def trigger_login(self):
+        self.loggedSignal.emit()

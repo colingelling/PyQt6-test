@@ -36,25 +36,3 @@ class DatabaseConnector:
 
     def open_connection(self):
         return self.check_connection()
-        # conn = self.connection
-        # cursor = conn.cursor()
-        #
-        # query = "select sqlite_version();"
-        # cursor.execute(query)
-        # record = cursor.fetchall()
-        # print("SQLite Database Version is: ", record)
-        # cursor.close()
-
-
-        # conn = self.connection
-
-        # db = self.db
-        # if not db.isOpen():
-        #     # db.open()
-        #
-        #     if db.isOpen() == "False":
-        #         status = 'closed'
-        #     else:
-        #         status = 'open'
-        #
-        #     print('Database connection status:', status)

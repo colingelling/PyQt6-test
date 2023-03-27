@@ -58,6 +58,7 @@ class Controller:
         self.third_window = LoginView()
         self.third_window.switch_first.connect(self.show_main_window)
         self.third_window.switch_second.connect(self.show_second_window)
+        self.third_window.loggedSignal.connect(self.show_me)
         self.third_window.show()
 
         # TODO: The code below should have a different approach because of the fact that the LoginView will initialize
@@ -72,3 +73,8 @@ class Controller:
         # self.second_window = RegisterView()
         # if self.second_window.isVisible():
         #     self.second_window.hide()
+
+    def show_me(self):
+        from views.user_view import UserView
+        self.logged_window = UserView()
+        self.logged_window.show()
