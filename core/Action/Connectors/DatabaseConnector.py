@@ -1,4 +1,3 @@
-from PyQt6.QtSql import QSqlDatabase
 
 
 class DatabaseConnector:
@@ -9,27 +8,53 @@ class DatabaseConnector:
         self.db_name = "LearningQt"
         self.db_file = db_path + self.db_name + file_extension
 
-        self.db = QSqlDatabase.addDatabase('QSQLITE')
+        self.connection = None
 
-    def open_connection(self):
+    def create_connection(self):
+
+        db_file = self.db_file
         # TODO: build in check for ensuring that the connection is already open or not (in case of window changes)
         # (for suppressing 'QSqlDatabasePrivate::addDatabase: duplicate connection name 'qt_sql_default_connection' -
         # warnings)
 
-        db = self.db
-        db.setDatabaseName(self.db_file)
+        from sqlite3 import Error
+        try:
+            import sqlite3
+            self.connection = sqlite3.connect(db_file)
+        except Error as e:
+            print(e)
 
-        if not db.isOpen():
-            db.open()
+        return self.connection
 
-            if db.isOpen() == "False":
-                status = 'closed'
-            else:
-                status = 'open'
+    def check_connection(self):
+        if not self.create_connection():
+            status = 'closed'
+        else:
+            status = 'open'
 
-            print('Database connection status:', status)
+        print('Database connection status:', status)
 
-    def close_connection(self):
-        if self.db.isOpen():
-            print('Closing database connection..')
-            return self.db.close()
+    def open_connection(self):
+        return self.check_connection()
+        # conn = self.connection
+        # cursor = conn.cursor()
+        #
+        # query = "select sqlite_version();"
+        # cursor.execute(query)
+        # record = cursor.fetchall()
+        # print("SQLite Database Version is: ", record)
+        # cursor.close()
+
+
+        # conn = self.connection
+
+        # db = self.db
+        # if not db.isOpen():
+        #     # db.open()
+        #
+        #     if db.isOpen() == "False":
+        #         status = 'closed'
+        #     else:
+        #         status = 'open'
+        #
+        #     print('Database connection status:', status)

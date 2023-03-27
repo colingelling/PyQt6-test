@@ -76,9 +76,6 @@ class LoginView(QMainWindow, User):
 
         self.ui.LoginFormSubmitBtn.setText("Sign in")
 
-        # open the database connection
-        self.open_connection()
-
         self.ui.LoginFormSubmitBtn.clicked.connect(self.check_credentials)
 
     def check_credentials(self):
@@ -86,88 +83,30 @@ class LoginView(QMainWindow, User):
         username = self.ui.LoginFormUsernameLineEdit.text()
         password = self.ui.LoginFormPasswordLineEdit.text()
 
-        # print(f"Username: { username1 }, password: { password1 }")
+        self.open_connection()
+        conn = self.connection
 
-        # from PyQt6 import QtSql
-        # pointer = QtSql.QSqlQuery(self.db)
-        # pointer.exec("SELECT * FROM users WHERE username = '%s' AND password = '%s';" %(username1, password1))
-        # pointer.first()
+        if conn:
+            print(f"Logging in user..")
 
-        # query = '''
-        #             # SELECT id, email, username, password from users WHERE email = '%s' AND username = '%s' AND password = '%s'; %(username, password)
-        #         '''
-        #
-        # from PyQt6 import QtSql
-        # pointer = QtSql.QSqlQuery(self.db)
-        # pointer.exec(query)
-        # pointer.first()
+            collect_users = "SELECT username, password FROM users"
+            cursor = conn.cursor()
+            cursor.execute(collect_users)
+            rows = cursor.fetchall()
+            conn.commit()
 
-        # find_user_query = "SELECT username, password FROM users WHERE username = '%s' and password = '%s';" %(username, password)
-        from PyQt6 import QtSql
-        pointer = QtSql.QSqlQuery(self.db)
-        # pointer.exec(find_user_query)
-        # pointer.first()
+            import bcrypt
 
-        # print(f"username: { pointer.value('username') } and password: { pointer.value('password') }")
+            # TODO: improve indexing rows
 
-        # TODO: decode pointer.value('password')
-        # TODO: retrieve user password and decode it
-
-        find_user = "SELECT username, password FROM users;"
-        pointer.exec(find_user)
-        pointer.first()
-
-        print(f"Hashed password from the database: {pointer.value('password')}")
-
-        field_to_encrypt = password
-        change_format = "{}".format(field_to_encrypt)
-        encrypted_password = field_to_encrypt.encode('utf-8')
-
-        db_pass = pointer.value('password')
-
-        import bcrypt
-        if bcrypt.checkpw(password.encode('utf-8'), db_pass.encode('utf-8')):
-            print('Password match!')
-        else:
-            print('There is some more work left to do..')
-
-        # if username == pointer.value('username'):
-        #     print('username matched!')
-        #     if bcrypt.checkpw(hashed_pw, pointer.value('password')):
-        #         print('Password match!')
-        #     else:
-        #         print('There is some more work left to do..')
-
-        # if str(username) == pointer.value("username") and str(password) == pointer.value("password"):
-        #     print('Found!')
-
-        # print(pointer.value("username"))
-
-        # if self.ui.LoginFormUsernameLineEdit.text() == username1 and self.ui.LoginFormPasswordLineEdit.text() == password1:
-        #     print("hello")
-        # else:
-        #     print("nothing match")
-        #
-        # print(f"Encrypted password: { pointer.value('password') }")
-
-        # change_format = "{}".format(pointer.value('password'))
-        # encrypted_password = password1.encode('utf-8')
-        # salt_object = bcrypt.gensalt(rounds=16)
-        # hashed_str = bcrypt.hashpw(encrypted_password, salt_object)
-        #
-        # print("The encrypted text or password is: {}".format(hashed_str))
-
-        # import bcrypt
-        # field_to_encrypt = password1
-        # change_format = "{}".format(field_to_encrypt)
-        # encrypted_password = field_to_encrypt.encode('utf-8')
-        # salt_object = bcrypt.gensalt(rounds=16)
-        # hashed_str = bcrypt.hashpw(encrypted_password, salt_object)
-
-        # if pointer.value('username') != None and pointer.value('password') != None:
-        #     print("Login successful!")
-        # else:
-        #     print("Login failed!")
+            for row in rows:
+                if row[0] == username:
+                    print('')
+                if row[0] == username and bcrypt.checkpw(password.encode('utf-8'), row[1].encode('utf-8')):
+                    print('The username has been found in the database and the password matches with it!')
+                    print('Login successful!')
+                else:
+                    print('Login failed, there is some more work left to do.')
 
     def switch_first_window(self):
         self.switch_first.emit()

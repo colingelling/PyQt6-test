@@ -109,9 +109,6 @@ class RegisterView(QMainWindow, User):
         # open the database connection
         self.open_connection()
 
-        # create the users table (when doesn't exist)
-        self.create_users_table()
-
         self.ui.RegisterFormSubmitBtn.setText("Register")
         self.ui.RegisterFormSubmitBtn.clicked.connect(self.create_user)
 

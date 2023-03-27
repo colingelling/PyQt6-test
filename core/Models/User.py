@@ -7,24 +7,40 @@ class User(DatabaseConnector):
 
         self.form_data = {}  # TODO: make sure for safety purposes that this will be emptied afterwards
 
+        # execute the following first because of requiring it for multiple purposes
+        self.create_users_table()
+
     def create_users_table(self):
-        if self.db.open():
-            print("Processing table..")
-            connection = self.db
 
-            # Creating table before adding values
-            query = '''CREATE TABLE users (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-                    firstname VARCHAR(40) NOT NULL,
-                    suffix VARCHAR(16) NOT NULL,
-                    lastname VARCHAR(40) NOT NULL,
-                    email VARCHAR(40) NOT NULL,
-                    username VARCHAR(40) NOT NULL,
-                    password VARCHAR(40) NOT NULL
-                )
-                '''
+        self.open_connection()
+        conn = self.connection
 
-            connection.exec(query)
+        if conn:
+            print(f"Creating database table: 'users'")
+
+            cursor = conn.cursor()
+
+            query = """
+                CREATE TABLE users (
+                   id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+                   firstname VARCHAR(40) NOT NULL,
+                   suffix VARCHAR(16) NOT NULL,
+                   lastname VARCHAR(40) NOT NULL,
+                   email VARCHAR(40) NOT NULL,
+                   username VARCHAR(40) NOT NULL,
+                   password VARCHAR(40) NOT NULL
+               )
+            """
+
+            import sqlite3
+            try:
+                cursor.execute(query)
+            except sqlite3.Error as error:
+                print("The program could not create the table:", error)
+
+            if cursor.execute("SELECT * FROM users"):
+                print('Table users has been found successfully!')
+                cursor.close()
 
     def create_user(self):
         # assign key values
@@ -41,25 +57,53 @@ class User(DatabaseConnector):
         encrypted_password = field_to_encrypt.encode('utf-8')
         salt_object = bcrypt.gensalt(rounds=16)
         hashed_str = bcrypt.hashpw(encrypted_password, salt_object)
-        bytes = hashed_str.decode("utf-8")
+        password_hash = hashed_str.decode("utf-8")
 
-        print("The encrypted text or password is: {}".format(bytes))
+        print("The encrypted text or password is: {}".format(password_hash))
 
-        if self.db.open():
-            # include database query functionality and database, set a query afterwards for creating a user account
-            from PyQt6 import QtSql
-            pointer = QtSql.QSqlQuery(self.db)
-            query = '''
-                        INSERT INTO users(firstname, suffix, lastname, username, email, password) 
-                        VALUES(:firstname, :suffix, :lastname, :username, :email, :password)
-                    '''
+        self.open_connection()
+        conn = self.connection
 
-            # bind query values to the key values (above) and process data into the database
-            pointer.prepare(query)
-            pointer.bindValue(':firstname', firstname)
-            pointer.bindValue(':suffix', suffix)
-            pointer.bindValue(':lastname', lastname)
-            pointer.bindValue(':username', username)
-            pointer.bindValue(':email', email)
-            pointer.bindValue(':password', str(bytes))
-            pointer.exec()
+        if conn:
+            print(f"Creating a user..")
+
+            cursor = conn.cursor()
+
+            import sqlite3
+            try:
+
+                # include database query functionality and database, set a query afterwards for creating a user account
+                query_data = dict(firstname=firstname, suffix=suffix, lastname=lastname,
+                                  username=username, email=email, password=password_hash)
+
+                query = ("""
+                            insert into users (firstname, suffix, lastname, username, email, password)
+                            values (:firstname, :suffix, :lastname, :username, :email, :password)
+                            """)
+
+                cursor.execute(query, query_data)
+                conn.commit()
+                conn.close()
+
+            except sqlite3.Error as error:
+                print("This program could not create the user:", error)
+                conn.close()
+
+            # if cursor.execute("SELECT * FROM users WHERE username=':username'", ':username' = username):
+            #     print('The user that was created has been found!')
+            #     cursor.close()
+
+    def login_user(self):
+        self.open_connection()
+        conn = self.connection
+
+        if conn:
+            print(f"Logging in user..")
+
+            collect_users = "SELECT username, password FROM users"
+            cursor = conn.cursor()
+            cursor.exec(collect_users)
+            conn.commit()
+
+            print(f"User hashed passwords from the database: { conn.value('password')}")
+
