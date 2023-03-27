@@ -23,15 +23,15 @@ class Controller:
         # TODO: The code below should have a different approach because of the fact that the LoginView will initialize
         # TODO: -- both views (and) background sources such as Models
 
-        # from views.register_view import RegisterView
-        # self.second_window = RegisterView()
-        # if self.second_window.isVisible():
-        #     self.second_window.hide()
-        #
-        # from views.login_view import LoginView
-        # self.third_window = LoginView()
-        # if self.third_window.isVisible():
-        #     self.third_window.hide()
+        from views.register_view import RegisterView
+        self.second_window = RegisterView()
+        if self.second_window.isVisible():
+            self.second_window.hide()
+
+        from views.login_view import LoginView
+        self.third_window = LoginView()
+        if self.third_window.isVisible():
+            self.third_window.hide()
 
     def show_second_window(self):
         from views.register_view import RegisterView
@@ -43,15 +43,15 @@ class Controller:
         # TODO: The code below should have a different approach because of the fact that the LoginView will initialize
         # TODO: -- both views (and) background sources such as Models
 
-        # from views.home_view import HomeView
-        # self.main_window = HomeView()
-        # if self.main_window.isVisible():
-        #     self.main_window.hide()
-        #
-        # from views.login_view import LoginView
-        # self.third_window = LoginView()
-        # if self.third_window.isVisible():
-        #     self.third_window.hide()
+        from views.home_view import HomeView
+        self.main_window = HomeView()
+        if self.main_window.isVisible():
+            self.main_window.hide()
+
+        from views.login_view import LoginView
+        self.third_window = LoginView()
+        if self.third_window.isVisible():
+            self.third_window.hide()
 
     def show_third_window(self):
         from views.login_view import LoginView
@@ -64,15 +64,15 @@ class Controller:
         # TODO: The code below should have a different approach because of the fact that the LoginView will initialize
         # TODO: -- both views (and) background sources such as Models
 
-        # from views.home_view import HomeView
-        # self.main_window = HomeView()
-        # if self.main_window.isVisible():
-        #     self.main_window.hide()
-        #
-        # from views.register_view import RegisterView
-        # self.second_window = RegisterView()
-        # if self.second_window.isVisible():
-        #     self.second_window.hide()
+        from views.home_view import HomeView
+        self.main_window = HomeView()
+        if self.main_window.isVisible():
+            self.main_window.hide()
+
+        from views.register_view import RegisterView
+        self.second_window = RegisterView()
+        if self.second_window.isVisible():
+            self.second_window.hide()
 
     def show_me(self):
         from views.user_view import UserView

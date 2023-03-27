@@ -8,10 +8,8 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
-from core.Models.User import User
 
-
-class LoginView(QMainWindow, User):
+class LoginView(QMainWindow):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()
@@ -65,10 +63,10 @@ class LoginView(QMainWindow, User):
         self.ui.LoginViewDescriptionLabel.adjustSize()
 
         # bind form field -data to key values for preparation purposes
-        self.form_data['username'] = self.ui.LoginFormUsernameLineEdit
-        # self.form_data['email'] = self.ui.RegisterFormEmailLineEdit  # TODO: later, make sure that it does work with the username
-        self.form_data['password'] = self.ui.LoginFormPasswordLineEdit
-        self.form_data['password'].setEchoMode(self.ui.LoginFormPasswordLineEdit.EchoMode.Password)
+        # self.form_data['username'] = self.ui.LoginFormUsernameLineEdit
+        # # self.form_data['email'] = self.ui.RegisterFormEmailLineEdit  # TODO: later, make sure that it does work with the username
+        # self.form_data['password'] = self.ui.LoginFormPasswordLineEdit
+        # self.form_data['password'].setEchoMode(self.ui.LoginFormPasswordLineEdit.EchoMode.Password)
 
         self.ui.LoginFormUsernameLabel.setText("Username or email address")
         self.ui.LoginFormUsernameLabel.adjustSize()
