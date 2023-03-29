@@ -1,0 +1,6 @@
+- Support for logging database actions
+Per individual functionality
+
+- Remember sessions according to a user of choice by approaching the login window
+1. Store username or email into a variable (e.g. dictionary) where it could be used within the next window
+2. Use QtSettings or QtSessionManager for remembering (setting and getting values)
