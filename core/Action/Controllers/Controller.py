@@ -11,7 +11,7 @@ class Controller:
     def __init__(self):
         pass
 
-    # Instantiate the window Classes per method from now on, bind the windows to individual signals and show the window
+    # Instantiate the window Classes per method from now on, bind the windows to individual navigation and show the window
 
     def show_main_window(self):
         from views.home_view import HomeView
@@ -19,9 +19,6 @@ class Controller:
         self.main_window.switch_second.connect(self.show_second_window)
         self.main_window.switch_third.connect(self.show_third_window)
         self.main_window.show()
-
-        # TODO: The code below should have a different approach because of the fact that the LoginView will initialize
-        # TODO: -- both views (and) background sources such as Models
 
         from views.register_view import RegisterView
         self.second_window = RegisterView()
@@ -40,9 +37,6 @@ class Controller:
         self.second_window.switch_third.connect(self.show_third_window)
         self.second_window.show()
 
-        # TODO: The code below should have a different approach because of the fact that the LoginView will initialize
-        # TODO: -- both views (and) background sources such as Models
-
         from views.home_view import HomeView
         self.main_window = HomeView()
         if self.main_window.isVisible():
@@ -60,9 +54,6 @@ class Controller:
         self.third_window.switch_second.connect(self.show_second_window)
         self.third_window.loggedSignal.connect(self.show_me)
         self.third_window.show()
-
-        # TODO: The code below should have a different approach because of the fact that the LoginView will initialize
-        # TODO: -- both views (and) background sources such as Models
 
         from views.home_view import HomeView
         self.main_window = HomeView()

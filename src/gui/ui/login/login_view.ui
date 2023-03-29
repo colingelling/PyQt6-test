@@ -364,7 +364,11 @@
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLineEdit" name="LoginFormPasswordLineEdit"/>
+          <widget class="QLineEdit" name="LoginFormPasswordLineEdit">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -441,7 +445,11 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLineEdit" name="LoginFormUsernameLineEdit"/>
+          <widget class="QLineEdit" name="LoginFormUsernameLineEdit">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -477,6 +485,9 @@
         <layout class="QGridLayout" name="gridLayout_5">
          <item row="0" column="0">
           <widget class="QPushButton" name="LoginFormSubmitBtn">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="text">
             <string>PushButton</string>
            </property>

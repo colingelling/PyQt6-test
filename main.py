@@ -6,13 +6,15 @@ Using Pycharm Professional
 """
 
 from PyQt6 import QtWidgets
-from core.Action.Controllers.Controller import Controller
 
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+
+    from core.Action.Controllers.Controller import Controller
     controller = Controller()
     controller.show_main_window()
+
     sys.exit(app.exec())
 
 

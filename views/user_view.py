@@ -39,20 +39,19 @@ class UserView(QMainWindow):
 
         # Navigation
 
-        button_home = QAction(f"{window_title}", self)
-        button_register = QAction("Register", self)
-        button_login = QAction("Login", self)
+        user_account = QAction(f"user_name", self)
 
-        button_home.triggered.connect(self.switch_first_window)
-        button_register.triggered.connect(self.switch_second_window)
-        button_login.triggered.connect(self.switch_third_window)
+        user_account.triggered.connect(self.switch_first_window)
 
         menubar = self.ui.menuBar
-        menubar.addAction(button_home)
-        menubar.addAction(button_register)
-        menubar.addAction(button_login)
+        menubar.addAction(user_account)
 
         # Navigation end
+
+        self.ui.welcomeUser.setText("Welcome, user_name!")
+
+        self.ui.userIntroductionLabel.setText("You're successfully logged in now, this area is all about showing you "
+                                              "data coming from the database behind this program.")
 
     def switch_first_window(self):
         self.switch_first.emit()

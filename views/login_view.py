@@ -8,8 +8,10 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
+from core.Models.User import User
 
-class LoginView(QMainWindow):
+
+class LoginView(QMainWindow, User):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()
@@ -63,10 +65,10 @@ class LoginView(QMainWindow):
         self.ui.LoginViewDescriptionLabel.adjustSize()
 
         # bind form field -data to key values for preparation purposes
-        # self.form_data['username'] = self.ui.LoginFormUsernameLineEdit
-        # # self.form_data['email'] = self.ui.RegisterFormEmailLineEdit  # TODO: later, make sure that it does work with the username
-        # self.form_data['password'] = self.ui.LoginFormPasswordLineEdit
-        # self.form_data['password'].setEchoMode(self.ui.LoginFormPasswordLineEdit.EchoMode.Password)
+        self.form_data['username'] = self.ui.LoginFormUsernameLineEdit
+        # self.form_data['email'] = self.ui.RegisterFormEmailLineEdit  # TODO: later, make sure that it does work with the username
+        self.form_data['password'] = self.ui.LoginFormPasswordLineEdit
+        self.form_data['password'].setEchoMode(self.ui.LoginFormPasswordLineEdit.EchoMode.Password)
 
         self.ui.LoginFormUsernameLabel.setText("Username or email address")
         self.ui.LoginFormUsernameLabel.adjustSize()
@@ -80,7 +82,7 @@ class LoginView(QMainWindow):
 
     def check_credentials(self):
 
-        username = self.ui.LoginFormUsernameLineEdit.text()
+        username_email = self.ui.LoginFormUsernameLineEdit.text()
         password = self.ui.LoginFormPasswordLineEdit.text()
 
         self.open_connection()
@@ -89,7 +91,7 @@ class LoginView(QMainWindow):
         if conn:
             print(f"Logging in user..")
 
-            collect_users = "SELECT username, password FROM users"
+            collect_users = "SELECT email, username, password FROM users"
             cursor = conn.cursor()
             cursor.execute(collect_users)
             rows = cursor.fetchall()
@@ -97,15 +99,16 @@ class LoginView(QMainWindow):
 
             import bcrypt
 
-            # TODO: improve indexing rows
-
-            for row in rows:
-                if row[0] == username and bcrypt.checkpw(password.encode('utf-8'), row[1].encode('utf-8')):
+            for row in rows:  # TODO: improve indexing rows
+                if row[0] == username_email or row[1] == username_email and bcrypt.checkpw(
+                        password.encode('utf-8'), row[2].encode('utf-8')):
                     self.trigger_login()
                     print('The username has been found in the database and the password matches with it!')
                     print('Login successful!')
                 else:
                     print('Login failed, there is some more work left to do.')
+
+    # TODO: try to make the following functionality working by executing it from a separated file
 
     def switch_first_window(self):
         self.switch_first.emit()

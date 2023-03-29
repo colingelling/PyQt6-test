@@ -290,7 +290,7 @@
             </sizepolicy>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
+            <enum>Qt::ClickFocus</enum>
            </property>
           </widget>
          </item>
@@ -474,7 +474,7 @@
             </sizepolicy>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
+            <enum>Qt::ClickFocus</enum>
            </property>
           </widget>
          </item>
@@ -670,7 +670,7 @@
           </rect>
          </property>
          <property name="focusPolicy">
-          <enum>Qt::NoFocus</enum>
+          <enum>Qt::ClickFocus</enum>
          </property>
          <property name="text">
           <string>PushButton</string>
@@ -747,7 +747,7 @@
          <item row="1" column="0">
           <widget class="QLineEdit" name="RegisterFormPasswordLineEdit_2">
            <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
+            <enum>Qt::ClickFocus</enum>
            </property>
           </widget>
          </item>
