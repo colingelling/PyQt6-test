@@ -66,7 +66,6 @@ class LoginView(QMainWindow, User):
 
         # bind form field -data to key values for preparation purposes
         self.form_data['username'] = self.ui.LoginFormUsernameLineEdit
-        # self.form_data['email'] = self.ui.RegisterFormEmailLineEdit  # TODO: later, make sure that it does work with the username
         self.form_data['password'] = self.ui.LoginFormPasswordLineEdit
         self.form_data['password'].setEchoMode(self.ui.LoginFormPasswordLineEdit.EchoMode.Password)
 
