@@ -1,4 +1,9 @@
+"""
 
+Created by Colin Gelling on 06/3/2023
+Using Pycharm Professional
+
+"""
 
 class DatabaseConnector:
     def __init__(self):

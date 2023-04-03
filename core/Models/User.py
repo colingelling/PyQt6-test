@@ -77,7 +77,8 @@ class User(DatabaseConnector):
                                   username=username, email=email, password=password_hash)
 
                 query = ("""
-                            insert into users (firstname, suffix, lastname, username, email, password)
+                            insert into users (
+                            firstname, suffix, lastname, username, email, password)
                             values (:firstname, :suffix, :lastname, :username, :email, :password)
                             """)
 
@@ -106,4 +107,3 @@ class User(DatabaseConnector):
             conn.commit()
 
             print(f"User hashed passwords from the database: { conn.value('password')}")
-

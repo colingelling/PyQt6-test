@@ -84,6 +84,8 @@ class LoginView(QMainWindow, User):
         username_email = self.ui.LoginFormUsernameLineEdit.text()
         password = self.ui.LoginFormPasswordLineEdit.text()
 
+        # TODO: find a solution for this block of code, merge with the User model
+
         self.open_connection()
         conn = self.connection
 
@@ -98,7 +100,7 @@ class LoginView(QMainWindow, User):
 
             import bcrypt
 
-            for row in rows:  # TODO: improve indexing rows
+            for row in rows:  # TODO: improve this by using another method instead of indexing rows
                 if row[0] == username_email or row[1] == username_email and bcrypt.checkpw(
                         password.encode('utf-8'), row[2].encode('utf-8')):
                     self.trigger_login()
@@ -106,8 +108,6 @@ class LoginView(QMainWindow, User):
                     print('Login successful!')
                 else:
                     print('Login failed, there is some more work left to do.')
-
-    # TODO: try to make the following functionality working by executing it from a separated file
 
     def switch_first_window(self):
         self.switch_first.emit()
