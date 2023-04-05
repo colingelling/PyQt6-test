@@ -53,6 +53,12 @@ class UserView(QMainWindow):
         self.ui.userIntroductionLabel.setText("You're successfully logged in now, this area is all about showing you "
                                               "data coming from the database behind this program.")
 
+        from PyQt6.QtCore import QSettings
+        settings = QSettings("PyQt-test", "LoggedUser")
+        settings.beginGroup("logged_user")
+        print(f'In this session: { settings.value("user") }')
+        settings.endGroup()
+
     def switch_first_window(self):
         self.switch_first.emit()
 

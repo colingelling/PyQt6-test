@@ -7,6 +7,8 @@ class User(DatabaseConnector):
 
         self.form_data = {}  # TODO: make sure for safety purposes that this will be emptied afterwards
 
+        self.users = []
+
         # execute the following first because of requiring it for multiple purposes
         self.create_users_table()
 
@@ -101,9 +103,17 @@ class User(DatabaseConnector):
         if conn:
             print(f"Logging in user..")
 
-            collect_users = "SELECT username, password FROM users"
+            collect_users = "SELECT id, email, username, password FROM users"
             cursor = conn.cursor()
-            cursor.exec(collect_users)
+            cursor.execute(collect_users)
+            users = cursor.fetchall()
             conn.commit()
 
-            print(f"User hashed passwords from the database: { conn.value('password')}")
+            # TODO: change this according to one user, not all users
+
+            for val in users:
+                self.users.append([
+                    val[0],
+                    val[1],
+                    val[2],
+                ])

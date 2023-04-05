@@ -81,33 +81,48 @@ class LoginView(QMainWindow, User):
 
     def check_credentials(self):
 
-        username_email = self.ui.LoginFormUsernameLineEdit.text()
-        password = self.ui.LoginFormPasswordLineEdit.text()
-
-        # TODO: find a solution for this block of code, merge with the User model
-
         self.open_connection()
         conn = self.connection
 
         if conn:
             print(f"Logging in user..")
 
-            collect_users = "SELECT email, username, password FROM users"
-            cursor = conn.cursor()
-            cursor.execute(collect_users)
-            rows = cursor.fetchall()
-            conn.commit()
+            form_username_email = self.ui.LoginFormUsernameLineEdit.text()
+            form_password = self.ui.LoginFormPasswordLineEdit.text()
 
             import bcrypt
 
-            for row in rows:  # TODO: improve this by using another method instead of indexing rows
-                if row[0] == username_email or row[1] == username_email and bcrypt.checkpw(
-                        password.encode('utf-8'), row[2].encode('utf-8')):
+            query = f"SELECT id, email, username, password FROM users WHERE email = '{ form_username_email }' "\
+                    f"OR username = '{ form_username_email }'"
+            cursor = conn.cursor()
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            conn.commit()
+
+            users = []
+
+            for value in rows:
+                users.append([
+                    value[0],
+                    value[1],
+                    value[2],
+                    value[3]
+                ])
+
+            if users:
+                for user_id, email, username, password in users:
+
+                    if bcrypt.checkpw(form_password.encode('utf-8'), password.encode('utf-8')):
+                        # set the session
+                        from PyQt6.QtCore import QSettings
+                        settings = QSettings("PyQt-test", "LoggedUser")
+                        settings.beginGroup("user_session")
+                        settings.setValue('id', user_id)
+                        settings.setValue('user', username)
+                        settings.endGroup()
+
+                    # use background functionality for submitting into the next window
                     self.trigger_login()
-                    print('The username has been found in the database and the password matches with it!')
-                    print('Login successful!')
-                else:
-                    print('Login failed, there is some more work left to do.')
 
     def switch_first_window(self):
         self.switch_first.emit()
