@@ -8,10 +8,12 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
+from core.Configurators.LayoutConfigurator import LayoutConfigurator
+
 from core.Models.User import User
 
 
-class RegisterView(QMainWindow, User):
+class RegisterView(QMainWindow, LayoutConfigurator, User):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()
@@ -20,21 +22,9 @@ class RegisterView(QMainWindow, User):
     def __init__(self):
         super(RegisterView, self).__init__()
 
-        self.initialize_layout()
-        self.load_css()
+        self.ui = self.load_register_ui()
+
         self.show_content()
-
-    def initialize_layout(self):
-        # load the layout
-        from src.gui.ui.register.register_view import Ui_RegisterWindow
-        self.ui = Ui_RegisterWindow()
-        self.ui.setupUi(self)
-
-    def load_css(self):
-        # import CSS file
-        css_file = "src/gui/css/register.css"
-        with open(css_file, "r") as fh:
-            self.setStyleSheet(fh.read())
 
     def show_content(self):
         window_title = 'Register'
@@ -101,10 +91,12 @@ class RegisterView(QMainWindow, User):
         self.ui.RegisterFormPasswordLabel_1.setText("Password")
         self.ui.RegisterFormPasswordLabel_1.adjustSize()
         self.ui.RegisterFormPasswordLineEdit_1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        self.ui.RegisterFormPasswordLineEdit_1.setEchoMode(self.ui.RegisterFormPasswordLineEdit_1.EchoMode.Password)
 
         self.ui.RegisterFormPasswordLabel_2.setText("Confirm password")
         self.ui.RegisterFormPasswordLabel_2.adjustSize()
         self.ui.RegisterFormPasswordLineEdit_2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        self.ui.RegisterFormPasswordLineEdit_2.setEchoMode(self.ui.RegisterFormPasswordLineEdit_2.EchoMode.Password)
 
         # open the database connection
         self.open_connection()

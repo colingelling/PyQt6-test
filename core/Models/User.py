@@ -1,4 +1,11 @@
-from core.Action.Connectors.DatabaseConnector import DatabaseConnector
+"""
+
+Created by Colin Gelling on 6/3/2023
+Using Pycharm Professional
+
+"""
+
+from core.Actions.Connectors.Database.SQLiteConnector import DatabaseConnector
 
 
 class User(DatabaseConnector):
@@ -97,23 +104,43 @@ class User(DatabaseConnector):
             #     cursor.close()
 
     def login_user(self):
+
         self.open_connection()
-        conn = self.connection
-
-        if conn:
-            print(f"Logging in user..")
-
-            collect_users = "SELECT id, email, username, password FROM users"
-            cursor = conn.cursor()
-            cursor.execute(collect_users)
-            users = cursor.fetchall()
-            conn.commit()
-
-            # TODO: change this according to one user, not all users
-
-            for val in users:
-                self.users.append([
-                    val[0],
-                    val[1],
-                    val[2],
-                ])
+        # conn = self.connection
+        #
+        # if conn:
+        #
+        #     # import sqlite3
+        #
+        #     # TODO: get credentials from GetLoginCredentials
+        #     from core.Management.Attributes.getters.Credentials.GetLoginCredentials import GetLoginCredentials
+        #     m = GetLoginCredentials()
+        #     print(m.get_credentials)
+        #
+        #     # users = []
+        #     #
+        #     # # try to find the user with the credentials filled in the form on the login window
+        #     # try:
+        #     #     query = f"SELECT id, email, username, password FROM users WHERE email = '{ form_username_email }' " \
+        #     #             f"OR username = '{ form_username_email }'"
+        #     #     cursor = conn.cursor()
+        #     #     cursor.execute(query)
+        #     #     rows = cursor.fetchall()
+        #     #     conn.commit()
+        #     #
+        #     #     # TODO: check the following behavior, need to check password first before adding it into a finalized variable
+        #     #
+        #     #     for value in rows:
+        #     #         users.append([
+        #     #             value[0],
+        #     #             value[1],
+        #     #             value[2],
+        #     #             value[3]
+        #     #         ])
+        #     #
+        #     # except sqlite3.Error as error:
+        #     #     from PyQt6.QtWidgets import QMessageBox
+        #     #     msg = QMessageBox()
+        #     #     msg.setWindowTitle("Credential check")
+        #     #     msg.setText(error)
+        #     #     msg.exec()

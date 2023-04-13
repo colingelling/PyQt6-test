@@ -11,7 +11,7 @@ from PyQt6 import QtWidgets
 def main():
     app = QtWidgets.QApplication(sys.argv)
 
-    from core.Action.Controllers.Controller import Controller
+    from core.Actions.Controllers.Controller import Controller
     controller = Controller()
     controller.show_main_window()
 
