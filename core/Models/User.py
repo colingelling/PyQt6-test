@@ -1,66 +1,45 @@
 """
 
-Created by Colin Gelling on 6/3/2023
+Created by Colin Gelling on 06/03/2023
 Using Pycharm Professional
 
 """
+from sqlite3 import Error
 
-from core.Actions.Connectors.Database.SQLiteConnector import DatabaseConnector
+from core.Actions.Connections.Database.Connectors.SQLiteConnector import SQLiteConnector
 
 
-class User(DatabaseConnector):
+class User(SQLiteConnector):
+
+    """
+        This class contains pieces of functionality defined by global database relations.
+        Actions in order to manage particular things like creating users, logging in and logging out
+    """
+
+    form_data = {}
+    user_data = {}
+    user_ids = []
+
     def __init__(self):
-        super(User, self).__init__()
-
-        self.form_data = {}  # TODO: make sure for safety purposes that this will be emptied afterwards
-
-        self.users = []
-
-        # execute the following first because of requiring it for multiple purposes
-        self.create_users_table()
-
-    def create_users_table(self):
-
-        self.open_connection()
-        conn = self.connection
-
-        if conn:
-            print(f"Creating database table: 'users'")
-
-            cursor = conn.cursor()
-
-            query = """
-                CREATE TABLE users (
-                   id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-                   firstname VARCHAR(40) NOT NULL,
-                   suffix VARCHAR(16) NOT NULL,
-                   lastname VARCHAR(40) NOT NULL,
-                   email VARCHAR(40) NOT NULL,
-                   username VARCHAR(40) NOT NULL,
-                   password VARCHAR(40) NOT NULL
-               )
-            """
-
-            import sqlite3
-            try:
-                cursor.execute(query)
-            except sqlite3.Error as error:
-                print("The program could not create the table:", error)
-
-            if cursor.execute("SELECT * FROM users"):
-                print('Table users has been found successfully!')
-                cursor.close()
+        SQLiteConnector.__init__(self)
 
     def create_user(self):
-        # assign key values
-        firstname = self.form_data['firstname'].text()
-        suffix = self.form_data['suffix'].text()
-        lastname = self.form_data['lastname'].text()
-        username = self.form_data['username'].text()
-        email = self.form_data['email'].text()
-        password = self.form_data['password'].text()
 
+        # TODO: think about preparation separation
+
+        # receive both keys and values from form field data (put into Dictionary)
+        form_data = dict(self.form_data)
+
+        # iterate over individual values
+        form_values = [form_data.get(key) for key in form_data]
+
+        # remove password from values list
+        password = form_values.pop()
+
+        # support package functionality
         import bcrypt
+
+        # hash password
         field_to_encrypt = password
         change_format = "{}".format(field_to_encrypt)
         encrypted_password = field_to_encrypt.encode('utf-8')
@@ -68,79 +47,170 @@ class User(DatabaseConnector):
         hashed_str = bcrypt.hashpw(encrypted_password, salt_object)
         password_hash = hashed_str.decode("utf-8")
 
-        print("The encrypted text or password is: {}".format(password_hash))
+        # TODO: end block
 
         self.open_connection()
-        conn = self.connection
 
-        if conn:
-            print(f"Creating a user..")
+        # bind attributes to credentials (set all form fields here)
+        firstname = form_data['firstname']
+        suffix = form_data['suffix']
+        lastname = form_data['lastname']
+        username = form_data['username']
+        email = form_data['email']
+        password = form_data['password']
 
-            cursor = conn.cursor()
+        connection = self.connection
+        if not connection.isValid():
+            raise ValueError("Connection is invalid.")
 
-            import sqlite3
-            try:
+        print(f"Creating user..")
 
-                # include database query functionality and database, set a query afterwards for creating a user account
-                query_data = dict(firstname=firstname, suffix=suffix, lastname=lastname,
-                                  username=username, email=email, password=password_hash)
+        import sqlite3
+        try:
 
-                query = ("""
-                            insert into users (
-                            firstname, suffix, lastname, username, email, password)
-                            values (:firstname, :suffix, :lastname, :username, :email, :password)
-                            """)
+            from datetime import datetime
 
-                cursor.execute(query, query_data)
-                conn.commit()
-                conn.close()
+            # set the collection of user credentials to use within a query
+            query_data = {
+                'firstname': firstname,
+                'suffix': suffix,
+                'lastname': lastname,
+                'username': username,
+                'email': email,
+                'password': password_hash,
+                'created_at': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            }
 
-            except sqlite3.Error as error:
-                print("This program could not create the user:", error)
-                conn.close()
+            # Build the SQL query string
+            columns = ', '.join(query_data.keys())
+            placeholders = ', '.join([':{}'.format(key) for key in query_data.keys()])
+            query_string = f"INSERT INTO users ({columns}, created_at) VALUES ({placeholders}, :created_at)"
 
-            # if cursor.execute("SELECT * FROM users WHERE username=':username'", ':username' = username):
-            #     print('The user that was created has been found!')
-            #     cursor.close()
+            # prepare the query
+            query = self.query
+            query.prepare(query_string)
+
+            # Bind the values to the placeholders (excluding created_at)
+            for key, value in query_data.items():
+                if key != 'created_at':
+                    query.bindValue(f":{key}", value)
+
+            # bind the created_at value separately
+            query.bindValue(":created_at", query_data['created_at'])
+
+            # execute the query
+            if not query.exec():
+                raise Error("Error adding user:", query.lastError().text())
+
+            print("User created successfully!")
+            connection.commit()
+            # TODO: cleanup?
+
+        except sqlite3.Error as error:
+            print("This program could not create the user:", error)
+
+        # TODO: self.close_connection doesn't work properly
+        # self.close_connection()
 
     def login_user(self):
 
+        # TODO: Try to speedup the login process
+
+        # set an open connection
         self.open_connection()
-        # conn = self.connection
-        #
-        # if conn:
-        #
-        #     # import sqlite3
-        #
-        #     # TODO: get credentials from GetLoginCredentials
-        #     from core.Management.Attributes.getters.Credentials.GetLoginCredentials import GetLoginCredentials
-        #     m = GetLoginCredentials()
-        #     print(m.get_credentials)
-        #
-        #     # users = []
-        #     #
-        #     # # try to find the user with the credentials filled in the form on the login window
-        #     # try:
-        #     #     query = f"SELECT id, email, username, password FROM users WHERE email = '{ form_username_email }' " \
-        #     #             f"OR username = '{ form_username_email }'"
-        #     #     cursor = conn.cursor()
-        #     #     cursor.execute(query)
-        #     #     rows = cursor.fetchall()
-        #     #     conn.commit()
-        #     #
-        #     #     # TODO: check the following behavior, need to check password first before adding it into a finalized variable
-        #     #
-        #     #     for value in rows:
-        #     #         users.append([
-        #     #             value[0],
-        #     #             value[1],
-        #     #             value[2],
-        #     #             value[3]
-        #     #         ])
-        #     #
-        #     # except sqlite3.Error as error:
-        #     #     from PyQt6.QtWidgets import QMessageBox
-        #     #     msg = QMessageBox()
-        #     #     msg.setWindowTitle("Credential check")
-        #     #     msg.setText(error)
-        #     #     msg.exec()
+
+        # declare the connection
+        connection = self.connection
+
+        # check whether the connection is usable or not
+        if not connection.isValid():
+            raise Error("No valid connection")
+
+        # set attributes
+        user = None
+        password = None
+
+        # retrieve keys and value pairs and assign them to attributes within this scope
+        data = dict(self.form_data)
+        user = data.get('user')
+        password = data.get('password')
+
+        if not user or not password:
+            raise ValueError("The username or email address and password are missing")
+
+        query_string = f"SELECT id, email, username, password FROM users WHERE email = '{user}' " \
+                       f"OR username = '{user}'"
+
+        query = self.query
+        query.prepare(query_string)
+
+        # execute the query (getting all results)
+        if not query.exec():
+            raise Error("Error executing the query:", query.lastError().text())
+
+        # filter trough every row of results according to the command execution
+        if not query.next():
+            print("No user found with the provided email or username.")
+            return
+
+        # get the column names of the data that was received
+        column_names = [query.record().fieldName(i) for i in range(query.record().count())]
+
+        # retrieve password from the database
+        password_index = column_names.index('password')
+        hashed_password = query.value(password_index)
+        entered_password = password
+
+        import bcrypt
+
+        # compare entered password with stored hashed password
+        salt = hashed_password[:29].encode('utf-8')  # extract salt from stored hashed password
+        hashed_entered_password = bcrypt.hashpw(entered_password.encode('utf-8'), salt)  # combine
+
+        # are the passwords matching?
+        if not hashed_password.encode('utf-8') == hashed_entered_password:
+            print("Password does not match with the user. Login failed.")
+            return
+
+        print("Password matched. User passed the login checks and the session has been prepared.")
+
+        # fill the class attribute dictionary for preparing a session
+        user_data = {'id': query.value(query.record().indexOf('id'))}
+        self.user_data = dict(user_data)
+
+    def get_user_ids(self):
+
+        # probably could be moved to
+
+        # set an open connection
+        self.open_connection()
+
+        # declare the connection
+        connection = self.connection
+
+        # check if the connection is usable
+        if not connection.isValid():
+            raise Error("Connection is not valid.")
+
+        query_string = f"SELECT id FROM users"
+        query = self.query
+        query.prepare(query_string)
+
+        # execute the query (getting all results)
+        if not query.exec():
+            raise Error("Error executing the query:", query.lastError().text())
+
+        # filter trough every row of results according to the command execution
+        if not query.next():
+            print("No user found with the provided email or username.")
+            return
+
+        # get the column names of the data that was received
+        column_names = [query.record().fieldName(i) for i in range(query.record().count())]
+
+        # get the values of that column
+        user_ids = {column: query.value(query.record().indexOf(column)) for column in column_names}
+        self.user_ids = user_ids
+
+        for user_id in user_ids:
+            print(user_id)

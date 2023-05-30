@@ -1,0 +1,136 @@
+"""
+
+Created by Colin Gelling on 30/01/2023
+Using Pycharm Professional
+
+"""
+
+from PyQt6 import QtCore
+from PyQt6.QtGui import QAction
+from PyQt6.QtWidgets import QMainWindow
+
+from core.Actions.Controllers.Navigation.ViewController import ViewController
+from core.Configurators.LayoutConfigurator import LayoutConfigurator
+from core.Actions.Management.RegisterManager import RegisterManager
+
+
+class RegisterView(QMainWindow, ViewController, LayoutConfigurator, RegisterManager):
+
+    switch_first = QtCore.pyqtSignal(str)
+    switch_second = QtCore.pyqtSignal(str)
+    switch_third = QtCore.pyqtSignal(str)
+
+    def __init__(self):
+        super().__init__()
+
+        self.ui = self.load_register_ui()
+
+        self.show_content()
+
+    def show_content(self):
+        window_title = 'Register'
+
+        self.setWindowTitle(f"{window_title}: My first PyQt6 program!")
+
+        ui = self.ui
+
+        # Navigation
+
+        button_home = QAction("Home", self)
+        button_register = QAction("Register", self)
+        button_login = QAction("Login", self)
+
+        button_home.triggered.connect(self.switch_home_window)
+        button_register.triggered.connect(self.switch_register_window)
+        button_login.triggered.connect(self.switch_login_window)
+
+        menubar = ui.menuBar
+        menubar.addAction(button_home)
+        menubar.addAction(button_register)
+        menubar.addAction(button_login)
+
+        ui.RegisterViewTitleLabel.setText("Register")
+        ui.RegisterViewTitleLabel.adjustSize()
+
+        ui.RegisterViewDescriptionLabel.setText("Create an account")
+        ui.RegisterViewDescriptionLabel.adjustSize()
+
+        from PyQt6.QtCore import Qt
+
+        # TODO 's:
+        #  Need to check setFocusPolicy on form fields, not working properly
+        #  Check whether form fields are empty or not within the view side instead of here
+
+        ui.RegisterFormFirstnameLabel.setText("Firstname")
+        ui.RegisterFormFirstnameLabel.adjustSize()
+        ui.RegisterFormFirstnameLineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        ui.RegisterFormFirstnameLineEdit.setFocus()
+
+        ui.RegisterFormSuffixLabel.setText("Suffix")
+        ui.RegisterFormSuffixLabel.adjustSize()
+        ui.RegisterFormSuffixLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+
+        ui.RegisterFormLastnameLabel.setText("Lastname")
+        ui.RegisterFormLastnameLabel.adjustSize()
+        ui.RegisterFormLastnameLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+
+        ui.RegisterFormUsernameLabel.setText("Username")
+        ui.RegisterFormUsernameLabel.adjustSize()
+        ui.RegisterFormUsernameLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+
+        ui.RegisterFormEmailLabel.setText("Email address")
+        ui.RegisterFormEmailLabel.adjustSize()
+        ui.RegisterFormEmailLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+
+        ui.RegisterFormPasswordLabel_1.setText("Password")
+        ui.RegisterFormPasswordLabel_1.adjustSize()
+        ui.RegisterFormPasswordLineEdit_1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        ui.RegisterFormPasswordLineEdit_1.setEchoMode(ui.RegisterFormPasswordLineEdit_1.EchoMode.Password)
+
+        ui.RegisterFormPasswordLabel_2.setText("Confirm password")
+        ui.RegisterFormPasswordLabel_2.adjustSize()
+        ui.RegisterFormPasswordLineEdit_2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        ui.RegisterFormPasswordLineEdit_2.setEchoMode(ui.RegisterFormPasswordLineEdit_2.EchoMode.Password)
+
+        ui.RegisterFormSubmitBtn.setText("Register")
+        ui.RegisterFormSubmitBtn.clicked.connect(self.pre_submit)
+
+    def pre_submit(self):
+
+        """
+        Prepare the submit process. Creating a Dictionary and filling it with the form field data before forwarding.
+        :return:
+        """
+
+        ui = self.ui
+
+        firstname = ui.RegisterFormFirstnameLineEdit.text()
+        suffix = ui.RegisterFormSuffixLineEdit.text()
+        lastname = ui.RegisterFormLastnameLineEdit.text()
+        username = ui.RegisterFormUsernameLineEdit.text()
+        email = ui.RegisterFormEmailLineEdit.text()
+        password = ui.RegisterFormPasswordLineEdit_1.text()
+        confirmed_password = ui.RegisterFormPasswordLineEdit_2.text()
+
+        self.form_data = {
+                'firstname': firstname,
+                'suffix': suffix,
+                'lastname': lastname,
+                'username': username,
+                'email': email,
+                'password': password,
+                'confirmed_password': confirmed_password
+            }
+
+        # forward to the actual submit process
+        # TODO: build in security, check for fields as requirement to fill in
+        self.submit()
+
+    def switch_home_window(self):
+        self.show_home()
+
+    def switch_register_window(self):
+        self.show_register()
+
+    def switch_login_window(self):
+        self.show_login()

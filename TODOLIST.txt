@@ -5,4 +5,3 @@ Per individual functionality
 1. Store username or email into a variable (e.g. dictionary) where it could be used within the next window
 2. Use QtSettings or QtSessionManager for remembering (setting and getting values, also use a globally set variable for
 setting database fields)
-3. Add database field (created_at)

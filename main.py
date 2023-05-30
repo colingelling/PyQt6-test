@@ -11,9 +11,9 @@ from PyQt6 import QtWidgets
 def main():
     app = QtWidgets.QApplication(sys.argv)
 
-    from core.Actions.Controllers.Controller import Controller
-    controller = Controller()
-    controller.show_main_window()
+    from bootstrap.Bootstrapper import Bootstrapper
+    bootstrap = Bootstrapper()
+    bootstrap.setup_controller()
 
     sys.exit(app.exec())
 

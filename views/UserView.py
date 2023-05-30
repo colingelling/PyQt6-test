@@ -9,10 +9,14 @@ from PyQt6 import QtCore
 from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtGui import QAction
 
-from core.Handlers.SessionHandlers.UserSessionHandler import UserSessionHandling
+from core.Actions.Controllers.Navigation.ViewController import ViewController
+from core.Configurators.EnvironmentConfigurator import EnvironmentConfigurator
+from core.Configurators.LayoutConfigurator import LayoutConfigurator
 
 
-class UserView(QMainWindow, UserSessionHandling):
+class UserView(QMainWindow, EnvironmentConfigurator, ViewController, LayoutConfigurator):
+
+    # TODO: find a solution for multiple inheritance, can be messy like the way that it is now
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()
@@ -21,33 +25,38 @@ class UserView(QMainWindow, UserSessionHandling):
     def __init__(self):
         super().__init__()
 
-        # load the layout
-        from src.gui.ui.user.welcome_view import Ui_WelcomeUserWindow
-        self.ui = Ui_WelcomeUserWindow()
-        self.ui.setupUi(self)
+        # set layout
+        self.ui = self.load_user_ui()
 
-        # import CSS file
-        css_file = "src/gui/css/home.css"
-        with open(css_file, "r") as fh:
-            self.setStyleSheet(fh.read())
+        for key, value in EnvironmentConfigurator.app_credentials.items():
+            if 'NAME' in key:
+                self.setWindowTitle(f"Welcome user: {value}")
 
         self.content()
 
+    def setup_navigation(self):
+        pass
+
     def content(self):
 
+        # set ui
         ui = self.ui
 
-        window_title = 'Welcomed user'
-
-        self.setWindowTitle(f"{window_title}: My first PyQt6 program!")
+        from core.Handlers.Sessions.UserSessions import UserSessions
+        user_sessions = UserSessions()
 
         # Navigation
 
-        settings = self.settings
-        settings.beginGroup("logged_user")
+        settings = user_sessions.settings
+        settings.beginGroup("user_session")
+
+        # TODO: session verification check and retrieve firstname in relation to the id
+
+        print(settings.value('id'))
 
         menubar = ui.menuBar
         menu = menubar.addMenu(f'{ settings.value("user") }')
+        # menu = menubar.addMenu(f'welcome user!')
 
         edit = menu.addMenu("Settings")
         edit.addAction("copy")
