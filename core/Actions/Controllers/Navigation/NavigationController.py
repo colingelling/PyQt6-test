@@ -73,7 +73,7 @@ class NavigationController(QtCore.QObject):
             view.switch_second[str].connect(lambda: self.set_view("RegisterView"))
             return view
         elif view_name == "UserView":
-            from views.UserView import UserView
+            from views.Authenticated.UserView import UserView
             view = UserView()
             return view
         

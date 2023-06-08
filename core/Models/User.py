@@ -178,6 +178,12 @@ class User(SQLiteConnector):
         user_data = {'id': query.value(query.record().indexOf('id'))}
         self.user_data = dict(user_data)
 
+    def process_sessions(self):
+
+        # TODO: use an existing Dictionary (user id) and filter the keys without real values in order to retrieve
+        #  specific user data
+        pass
+
     def get_user_ids(self):
 
         # probably could be moved to

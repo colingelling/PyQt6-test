@@ -44,10 +44,15 @@ class ViewMapping:
         }
 
     def authenticated(self):
-        from views.UserView import UserView
+        # TODO: Give certain views specific parameters such as 'authenticated yes | no'. Provide the user_session while
+        #  yes, do nothing when it has the value 'no'.
+
+        from views.Authenticated.UserView import UserView
 
         self.navigation_pattern = {
             "HomeView": {
                 "class": UserView,
+                "type": "authenticated",
+                "authenticated": "yes"
             }
         }

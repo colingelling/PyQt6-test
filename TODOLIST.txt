@@ -1,7 +1,13 @@
-- Support for logging database actions
-Per individual functionality
+- Provide user interactions for the register and login view (QLineEdit's) 'Showing when there's something wrong with filled in credentials)
+
+- Add support for logging database actions
+Per individual piece of functionality
 
 - Remember sessions according to a user of choice by approaching the login window
-1. Store username or email into a variable (e.g. dictionary) where it could be used within the next window
-2. Use QtSettings or QtSessionManager for remembering (setting and getting values, also use a globally set variable for
-setting database fields)
+1. Store the user id into a Dictionary where it could be used within the next window (after successful login)
+2. Initialize the user_session within views depended on signed users (using QtSettings)
+3. For the first view after step one, add the user_id to a new Dictionary and update that one everytime there's another
+task for the database
+
+- Continue improving the Controllers, the new added Storage.Mapping.ViewMapping class is going to be used with the
+NavigationController

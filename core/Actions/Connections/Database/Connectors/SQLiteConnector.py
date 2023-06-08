@@ -14,6 +14,8 @@ import os
 
 class SQLiteConnector(EnvironmentConfigurator):
 
+    # TODO: Build functionality for checking the connection (instead of checking whether the connection is valid or not)
+
     cwd = os.getcwd()
 
     def __init__(self):

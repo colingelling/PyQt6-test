@@ -23,8 +23,9 @@ class ViewSessions:
         return ViewSessions.counter
 
     def set_session(self):
+        # activate a session instance
         self.settings.beginGroup("view_session")
-        self.settings.clear()
+        self.settings.clear()  # make sure that the session does not contain any 'view' values
 
         if self.view_session:
             for key, value in self.view_session.items():
@@ -33,6 +34,7 @@ class ViewSessions:
                     ViewSessions.view_objects[view_identifier] = value
                     self.settings.setValue(key, view_identifier)
 
+        # close session
         self.settings.endGroup()
 
     def get_session(self):
