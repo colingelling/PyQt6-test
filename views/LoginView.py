@@ -6,6 +6,7 @@ Using Pycharm Professional
 """
 
 from PyQt6 import QtCore
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
@@ -72,7 +73,12 @@ class LoginView(QMainWindow, ViewController, LayoutConfigurator, LoginManager):
         ui.LoginFormPasswordLabel.adjustSize()
         ui.LoginFormPasswordLineEdit.setEchoMode(ui.LoginFormPasswordLineEdit.EchoMode.Password)
 
+        self.setTabOrder(ui.LoginFormUsernameLineEdit, ui.LoginFormPasswordLineEdit)
+        ui.LoginFormUsernameLineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        ui.LoginFormPasswordLineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+
         ui.LoginFormSubmitBtn.setText("Sign in")
+        ui.LoginFormSubmitBtn.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         ui.LoginFormSubmitBtn.clicked.connect(self.pre_submit)
 

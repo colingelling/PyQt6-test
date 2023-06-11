@@ -68,31 +68,40 @@ class RegisterView(QMainWindow, ViewController, LayoutConfigurator, RegisterMana
 
         ui.RegisterFormSuffixLabel.setText("Suffix")
         ui.RegisterFormSuffixLabel.adjustSize()
-        ui.RegisterFormSuffixLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        ui.RegisterFormSuffixLineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         ui.RegisterFormLastnameLabel.setText("Lastname")
         ui.RegisterFormLastnameLabel.adjustSize()
-        ui.RegisterFormLastnameLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        ui.RegisterFormLastnameLineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         ui.RegisterFormUsernameLabel.setText("Username")
         ui.RegisterFormUsernameLabel.adjustSize()
-        ui.RegisterFormUsernameLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        ui.RegisterFormUsernameLineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         ui.RegisterFormEmailLabel.setText("Email address")
         ui.RegisterFormEmailLabel.adjustSize()
-        ui.RegisterFormEmailLineEdit.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        ui.RegisterFormEmailLineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         ui.RegisterFormPasswordLabel_1.setText("Password")
         ui.RegisterFormPasswordLabel_1.adjustSize()
-        ui.RegisterFormPasswordLineEdit_1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        ui.RegisterFormPasswordLineEdit_1.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         ui.RegisterFormPasswordLineEdit_1.setEchoMode(ui.RegisterFormPasswordLineEdit_1.EchoMode.Password)
 
         ui.RegisterFormPasswordLabel_2.setText("Confirm password")
         ui.RegisterFormPasswordLabel_2.adjustSize()
-        ui.RegisterFormPasswordLineEdit_2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        ui.RegisterFormPasswordLineEdit_2.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         ui.RegisterFormPasswordLineEdit_2.setEchoMode(ui.RegisterFormPasswordLineEdit_2.EchoMode.Password)
 
+        # Set the tab order among line edits
+        self.setTabOrder(ui.RegisterFormFirstnameLineEdit, ui.RegisterFormSuffixLineEdit)
+        self.setTabOrder(ui.RegisterFormSuffixLineEdit, ui.RegisterFormLastnameLineEdit)
+        self.setTabOrder(ui.RegisterFormLastnameLineEdit, ui.RegisterFormUsernameLineEdit)
+        self.setTabOrder(ui.RegisterFormUsernameLineEdit, ui.RegisterFormEmailLineEdit)
+        self.setTabOrder(ui.RegisterFormEmailLineEdit, ui.RegisterFormPasswordLineEdit_1)
+        self.setTabOrder(ui.RegisterFormPasswordLineEdit_1, ui.RegisterFormPasswordLineEdit_2)
+
         ui.RegisterFormSubmitBtn.setText("Register")
+        ui.RegisterFormSubmitBtn.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         ui.RegisterFormSubmitBtn.clicked.connect(self.pre_submit)
 
     def pre_submit(self):
