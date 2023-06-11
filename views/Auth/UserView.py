@@ -29,7 +29,7 @@ class UserView(QMainWindow, EnvironmentConfigurator, ViewController, LayoutConfi
         self.ui = self.load_user_ui()
 
         # open session since this is a protected view
-        import views.Authenticated.Sessions.requests as SessionRequests
+        import views.Auth.Sessions.requests as SessionRequests
         SessionRequests.load_user_session()
 
         for key, value in EnvironmentConfigurator.app_credentials.items():

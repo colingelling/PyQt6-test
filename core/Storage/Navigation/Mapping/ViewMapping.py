@@ -9,33 +9,31 @@ Using Pycharm Professional
 class ViewMapping:
 
     navigation_pattern = {}
-    type = None
 
     def __init__(self):
         pass
 
-    def non_authenticated(self):
-        from views.HomeView import HomeView
-        from views.RegisterView import RegisterView
-        from views.LoginView import LoginView
-
-        self.navigation_pattern = {
+    def not_authenticated(self):
+        pattern = {
             "HomeView": {
-                "class": HomeView,
+                "class": "HomeView",
+                "authentication": "no",
                 "connections": [
                     ("switch_second", "RegisterView"),
                     ("switch_third", "LoginView")
                 ]
             },
             "RegisterView": {
-                "class": RegisterView,
+                "class": "RegisterView",
+                "authentication": "no",
                 "connections": [
                     ("switch_first", "HomeView"),
                     ("switch_third", "LoginView")
                 ]
             },
             "LoginView": {
-                "class": LoginView,
+                "class": "LoginView",
+                "authentication": "no",
                 "connections": [
                     ("switch_first", "HomeView"),
                     ("switch_second", "RegisterView")
@@ -43,16 +41,19 @@ class ViewMapping:
             }
         }
 
+        self.navigation_pattern = pattern
+        return pattern
+
     def authenticated(self):
         # TODO: Give certain views specific parameters such as 'authenticated yes | no'. Provide the user_session while
         #  yes, do nothing when it has the value 'no'.
 
-        from views.Authenticated.UserView import UserView
-
-        self.navigation_pattern = {
-            "HomeView": {
-                "class": UserView,
-                "type": "authenticated",
-                "authenticated": "yes"
+        pattern = {
+            "UserView": {
+                "class": "UserView",
+                "authentication": "yes",
             }
         }
+
+        self.navigation_pattern = pattern
+        return pattern

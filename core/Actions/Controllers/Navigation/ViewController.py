@@ -14,16 +14,16 @@ class ViewController(NavigationController):
 
     def show_home(self):
         view = "HomeView"
-        self.set_view(view)
+        self.set_view(view, authenticated="no")
 
     def show_register(self):
         view = "RegisterView"
-        self.set_view(view)
+        self.set_view(view, authenticated="no")
 
     def show_login(self):
         view = "LoginView"
-        self.set_view(view)
+        self.set_view(view, authenticated="no")
 
     def show_user(self):
         view = "UserView"
-        self.set_view(view)
+        self.set_view(view, authenticated="yes")
