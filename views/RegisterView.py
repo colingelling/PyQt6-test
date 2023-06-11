@@ -58,7 +58,6 @@ class RegisterView(QMainWindow, ViewController, LayoutConfigurator, RegisterMana
         from PyQt6.QtCore import Qt
 
         # TODO 's:
-        #  Need to check setFocusPolicy on form fields, not working properly
         #  Check whether form fields are empty or not within the view side instead of here
 
         ui.RegisterFormFirstnameLabel.setText("Firstname")

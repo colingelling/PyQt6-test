@@ -1,10 +1,14 @@
 - Provide user interactions for the register and login view (QLineEdit's) 'Showing when there's something wrong with filled in credentials)
 
-- Add support for logging database actions
-Per individual piece of functionality
+- Cleanup the Controllers
 
-- Continue improving the Controllers. Begin with ViewController, extend to NavigationController, and from there to the ViewMapping class.
-Where:
-1. ViewController equals to the declaration of views
-2. NavigationController manages the background functionality
-3. ViewMapping class is the storage for view related parameters and other information
+- Provide the user session through the Controllers (when authenticated equals to yes.. serve)
+
+- Improve visual design (reorganizing the css implementation and change style + maybe adding some images)
+
+- Update Readme.md
+
+- Structure improvements (file & folder tree organization)
+
+- Add support for logging database actions (Extra, not really important for this environment)
+Per individual piece of functionality
