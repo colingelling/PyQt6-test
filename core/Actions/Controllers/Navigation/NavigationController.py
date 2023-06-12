@@ -4,7 +4,6 @@ Created by Colin Gelling on 20/2/2023
 Using Pycharm Professional
 
 """
-import importlib
 
 from PyQt6 import QtCore
 
