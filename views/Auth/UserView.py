@@ -74,6 +74,11 @@ class UserView(QMainWindow, EnvironmentConfigurator, ViewController, LayoutConfi
         ui.userIntroductionLabel.setText("You're successfully logged in now, this area is all about showing you "
                                          "some data coming from the database behind this app.")
 
+        ui.userDataTitleLabel.setText("Displayed user information")
+
+        ui.userDataNameTitleLabel.setText("Name:")  # TODO: firstname, suffix + lastname
+        ui.userDataCreatedLabel.setText("Account created on:")  # TODO: created_at
+
     def switch_first_window(self):
         self.switch_first.emit()
 

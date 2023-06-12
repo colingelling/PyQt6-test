@@ -4,6 +4,10 @@
 
 - Provide the user session through the Controllers (when authenticated equals to yes.. serve)
 
+- Session verification (check within authenticated views if the session exists)
+
+- Add logout functionality (destroy session)
+
 - Improve visual design (reorganizing the css implementation and change style + maybe adding some images)
 
 - Update Readme.md
