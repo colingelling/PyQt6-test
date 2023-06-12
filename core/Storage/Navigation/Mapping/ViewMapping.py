@@ -17,7 +17,7 @@ class ViewMapping:
         pattern = {
             "HomeView": {
                 "class": "HomeView",
-                "authentication": "no",
+                "authenticated": "no",
                 "connections": [
                     ("switch_second", "RegisterView"),
                     ("switch_third", "LoginView")
@@ -25,7 +25,7 @@ class ViewMapping:
             },
             "RegisterView": {
                 "class": "RegisterView",
-                "authentication": "no",
+                "authenticated": "no",
                 "connections": [
                     ("switch_first", "HomeView"),
                     ("switch_third", "LoginView")
@@ -33,7 +33,7 @@ class ViewMapping:
             },
             "LoginView": {
                 "class": "LoginView",
-                "authentication": "no",
+                "authenticated": "no",
                 "connections": [
                     ("switch_first", "HomeView"),
                     ("switch_second", "RegisterView")
@@ -51,7 +51,7 @@ class ViewMapping:
         pattern = {
             "UserView": {
                 "class": "UserView",
-                "authentication": "yes",
+                "authenticated": "yes",
             }
         }
 

@@ -18,12 +18,7 @@ class NavigationController(QtCore.QObject, ViewMapping):
         self.views = {}
         self.view_session = None
 
-        self.view_subject = None
-        self.view_class = None
-        self.view_authentication = None
-        self.view_connections = {}
-
-    def set_view(self, view_name, authenticated="no"):
+    def set_view(self, view_name, authenticated="no"):  # TODO: separate session stuff?
         # show the requested view (sourced from the Controller)
         if view_name not in self.views:
             view = self.create_view(view_name, authenticated)
@@ -51,61 +46,39 @@ class NavigationController(QtCore.QObject, ViewMapping):
         self.views[view_name].show()
 
     def create_view(self, view_name, authenticated="no"):
-        # instantiate and set functionality switch through options
+        # set available instances
+        from core.Actions.Creators.ViewCreator import ViewCreator
         mapping = ViewMapping()
-        if authenticated == "yes":
-            mapping.authenticated()
-        else:
-            mapping.not_authenticated()
+        creator = ViewCreator()
 
-        if not mapping.navigation_pattern:
-            raise ValueError("Navigation pattern has not been set")
+        # check and set authentication based on the ViewMapping
+        creator.set_authentication(mapping, authenticated)
+        creator.validate_navigation_pattern(mapping)
 
+        # retrieve the correct view data related on the user's preferences (window switching)
         view_data = mapping.navigation_pattern.get(view_name)
-        if not view_data:
-            raise ValueError(f"View data not found for view: {view_name}")
+        creator.validate_view_data(view_data, view_name)
 
+        # retrieve the class value from ViewMapping and check if it has value
         view_class = view_data.get("class")
-        if not view_class:
-            raise ValueError(f"View class not specified for view: {view_name}")
+        creator.validate_view_class(view_class, view_name)
 
-        view_module = None
+        # use the view_class and attempt to import the view module (from ... import ...)
+        view_module = creator.get_view_module(view_class, authenticated)
+        view = creator.import_view(view_module, view_class, view_name)
 
-        if authenticated == "yes":
-            view_module = f"views.Auth.{view_class}"
-        elif authenticated == "no":
-            view_module = f"views.{view_class}"
-        else:
-            raise ValueError("Authentication value has not been set properly.")
+        # set the connections (available windows to switch to)
+        creator.setup_connections(view, view_data.get('connections'))
 
-        try:
-            module_import = importlib.import_module(view_module)
-            view_class = getattr(module_import, view_class)
-            view = view_class()
-
-            # set up any connections or additional logic specific to the view
-            connections = view_data.get('connections')
-            if connections:
-                for connection in connections:
-                    switch, connected_view = connection
-
-                    switch_attr = getattr(view, switch, None)
-                    if switch_attr is not None:
-                        switch_attr[str].connect(lambda: self.set_view(connected_view))
-                    else:
-                        print(f"Switch attribute '{switch}' not found in the view")
-
-            return view
-        except (ImportError, AttributeError) as e:
-            # Handle import errors or attribute errors
-            print(f"Error creating view: {view_name}. {str(e)}")
-            return None
+        # show
+        return view
         
     def close_view(self):
 
         # retrieve the session
         session = self.view_session.get_session()
 
+        # check if the session is there
         if session:
             for key, value in session.items():
                 # close
