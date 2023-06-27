@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '/home/colin/Python/Projects/Pycharm/Development/Repositories/LearningQt/src/gui/ui/login/login_view.ui'
+# Form implementation generated from reading ui file '/home/colin/Python/Projects/Pycharm/Development/Repositories/LearningQt/src/gui/ui/login/LoginWindow.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.2
 #

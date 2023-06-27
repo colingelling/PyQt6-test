@@ -23,14 +23,44 @@ class RegisterView(QMainWindow, ViewController, LayoutConfigurator, RegisterMana
     def __init__(self):
         super().__init__()
 
+        # set Ui (must happen before doing anything else because any alterations to the window won't work)
         self.ui = self.load_register_ui()
 
+        for key, value in self.app_credentials.items():
+            # TODO: This has no influence on the output. However, inheriting EnvironmentConfigurator to use the same
+            #  approach as in the HomeView breaks the windows which require database actions. The SQLiteConnector
+            #  inherits the class already so it wouldn't be needed here.
+
+            if 'NAME' in key:
+                self.window_title = 'Register'
+                self.setWindowTitle(f"{self.window_title}: { value }")
+
+        self.home_nav = None
+        self.register_nav = None
+        self.login_nav = None
+
+        self.setup_navigation()
+
+        self.form_data = {}
+
+        # show the ui elements
         self.show_content()
 
-    def show_content(self):
-        window_title = 'Register'
+    def setup_navigation(self):
 
-        self.setWindowTitle(f"{window_title}: My first PyQt6 program!")
+        button_home = QAction("Home", self)
+        button_register = QAction("Register", self)
+        button_login = QAction("Login", self)
+
+        button_home.triggered.connect(self.switch_home_window)
+        button_register.triggered.connect(self.switch_register_window)
+        button_login.triggered.connect(self.switch_login_window)
+
+        self.home_nav = button_home
+        self.register_nav = button_register
+        self.login_nav = button_login
+
+    def show_content(self):
 
         ui = self.ui
 
@@ -106,8 +136,8 @@ class RegisterView(QMainWindow, ViewController, LayoutConfigurator, RegisterMana
     def pre_submit(self):
 
         """
-        Prepare the submit process. Creating a Dictionary and filling it with the form field data before forwarding.
-        :return:
+            Prepare the submit process. Creating a Dictionary and filling it with the form field data before forwarding.
+            :return:
         """
 
         ui = self.ui
@@ -121,17 +151,16 @@ class RegisterView(QMainWindow, ViewController, LayoutConfigurator, RegisterMana
         confirmed_password = ui.RegisterFormPasswordLineEdit_2.text()
 
         self.form_data = {
-                'firstname': firstname,
-                'suffix': suffix,
-                'lastname': lastname,
-                'username': username,
-                'email': email,
-                'password': password,
-                'confirmed_password': confirmed_password
-            }
+            'firstname': firstname,
+            'suffix': suffix,
+            'lastname': lastname,
+            'username': username,
+            'email': email,
+            'password': password,
+            'confirmed_password': confirmed_password
+        }
 
         # forward to the actual submit process
-        # TODO: build in security, check for fields as requirement to fill in
         self.submit()
 
     def switch_home_window(self):

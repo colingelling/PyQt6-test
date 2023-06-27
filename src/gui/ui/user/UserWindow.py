@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '/home/colin/Python/Projects/Pycharm/Development/Repositories/LearningQt/src/gui/ui/user/welcome_view.ui'
+# Form implementation generated from reading ui file '/home/colin/Python/Projects/Pycharm/Development/Repositories/LearningQt/src/gui/ui/user/UserWindow.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.2
 #
@@ -9,17 +9,17 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_WelcomeUserWindow(object):
-    def setupUi(self, WelcomeUserWindow):
-        WelcomeUserWindow.setObjectName("WelcomeUserWindow")
-        WelcomeUserWindow.resize(634, 546)
+class Ui_UserWindow(object):
+    def setupUi(self, UserWindow):
+        UserWindow.setObjectName("UserWindow")
+        UserWindow.resize(634, 546)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(WelcomeUserWindow.sizePolicy().hasHeightForWidth())
-        WelcomeUserWindow.setSizePolicy(sizePolicy)
-        WelcomeUserWindow.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.centralwidget = QtWidgets.QWidget(parent=WelcomeUserWindow)
+        sizePolicy.setHeightForWidth(UserWindow.sizePolicy().hasHeightForWidth())
+        UserWindow.setSizePolicy(sizePolicy)
+        UserWindow.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.centralwidget = QtWidgets.QWidget(parent=UserWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -171,28 +171,28 @@ class Ui_WelcomeUserWindow(object):
         self.gridLayout_5.addItem(spacerItem36, 4, 3, 1, 1)
         self.gridLayout.addWidget(self.widget_3, 5, 3, 3, 12)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
-        WelcomeUserWindow.setCentralWidget(self.centralwidget)
-        self.menuBar = QtWidgets.QMenuBar(parent=WelcomeUserWindow)
+        UserWindow.setCentralWidget(self.centralwidget)
+        self.menuBar = QtWidgets.QMenuBar(parent=UserWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 634, 22))
         self.menuBar.setObjectName("menuBar")
-        WelcomeUserWindow.setMenuBar(self.menuBar)
-        self.actionLogin = QtGui.QAction(parent=WelcomeUserWindow)
+        UserWindow.setMenuBar(self.menuBar)
+        self.actionLogin = QtGui.QAction(parent=UserWindow)
         self.actionLogin.setObjectName("actionLogin")
-        self.actionRegister = QtGui.QAction(parent=WelcomeUserWindow)
+        self.actionRegister = QtGui.QAction(parent=UserWindow)
         self.actionRegister.setObjectName("actionRegister")
 
-        self.retranslateUi(WelcomeUserWindow)
-        QtCore.QMetaObject.connectSlotsByName(WelcomeUserWindow)
+        self.retranslateUi(UserWindow)
+        QtCore.QMetaObject.connectSlotsByName(UserWindow)
 
-    def retranslateUi(self, WelcomeUserWindow):
+    def retranslateUi(self, UserWindow):
         _translate = QtCore.QCoreApplication.translate
-        WelcomeUserWindow.setWindowTitle(_translate("WelcomeUserWindow", "MainWindow"))
-        self.welcomeUser.setText(_translate("WelcomeUserWindow", "TextLabel"))
-        self.userIntroductionLabel.setText(_translate("WelcomeUserWindow", "TextLabel"))
-        self.userDataNameCredLabel.setText(_translate("WelcomeUserWindow", "TextLabel"))
-        self.userDataNameTitleLabel.setText(_translate("WelcomeUserWindow", "TextLabel"))
-        self.userDataTitleLabel.setText(_translate("WelcomeUserWindow", "TextLabel"))
-        self.userDataCreatedLabel.setText(_translate("WelcomeUserWindow", "TextLabel"))
-        self.userDataCreatedCredLabel.setText(_translate("WelcomeUserWindow", "TextLabel"))
-        self.actionLogin.setText(_translate("WelcomeUserWindow", "Login"))
-        self.actionRegister.setText(_translate("WelcomeUserWindow", "Register"))
+        UserWindow.setWindowTitle(_translate("UserWindow", "MainWindow"))
+        self.welcomeUser.setText(_translate("UserWindow", "TextLabel"))
+        self.userIntroductionLabel.setText(_translate("UserWindow", "TextLabel"))
+        self.userDataNameCredLabel.setText(_translate("UserWindow", "TextLabel"))
+        self.userDataNameTitleLabel.setText(_translate("UserWindow", "TextLabel"))
+        self.userDataTitleLabel.setText(_translate("UserWindow", "TextLabel"))
+        self.userDataCreatedLabel.setText(_translate("UserWindow", "TextLabel"))
+        self.userDataCreatedCredLabel.setText(_translate("UserWindow", "TextLabel"))
+        self.actionLogin.setText(_translate("UserWindow", "Login"))
+        self.actionRegister.setText(_translate("UserWindow", "Register"))

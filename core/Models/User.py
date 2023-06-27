@@ -25,8 +25,6 @@ class User(SQLiteConnector):
 
     def create_user(self):
 
-        # TODO: think about preparation separation
-
         # receive both keys and values from form field data (put into Dictionary)
         form_data = dict(self.form_data)
 
@@ -104,7 +102,6 @@ class User(SQLiteConnector):
 
             print("User created successfully!")
             connection.commit()
-            # TODO: cleanup?
 
         except sqlite3.Error as error:
             print("This program could not create the user:", error)
@@ -113,8 +110,6 @@ class User(SQLiteConnector):
         # self.close_connection()
 
     def login_user(self):
-
-        # TODO: Try to speedup the login process
 
         # set an open connection
         self.open_connection()
@@ -177,12 +172,6 @@ class User(SQLiteConnector):
         # fill the class attribute dictionary for preparing a session
         user_data = {'id': query.value(query.record().indexOf('id'))}
         self.user_data = dict(user_data)
-
-    def process_sessions(self):
-
-        # TODO: use an existing Dictionary (user id) and filter the keys without real values in order to retrieve
-        #  specific user data
-        pass
 
     def get_user_ids(self):
 

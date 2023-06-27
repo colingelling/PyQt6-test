@@ -4,7 +4,10 @@ import importlib
 class ViewCreator:
     @staticmethod
     def set_authentication(mapping, authenticated):
-        # check authentication value and set the correct method
+        """
+            Execute matching functionality based up on the authentication
+        """
+
         if authenticated == "yes":
             mapping.authenticated()
         else:
@@ -12,25 +15,38 @@ class ViewCreator:
 
     @staticmethod
     def validate_navigation_pattern(mapping):
-        # check if the mapping attribute has been filled
+
+        """
+            Verify view and window information values
+        """
+
         if not mapping.navigation_pattern:
             raise ValueError("Navigation pattern has not been set")
 
     @staticmethod
     def validate_view_data(view_data, view_name):
-        # check if the information is there
+        """
+            Verify that the information exists and has been set properly
+        """
+
         if not view_data:
             raise ValueError(f"View data not found for view: {view_name}")
 
     @staticmethod
     def validate_view_class(view_class, view_name):
-        # check if the class definition has value
+        """
+            Verify that the class definition has value
+        """
+
         if not view_class:
             raise ValueError(f"View class not specified for view: {view_name}")
 
     @staticmethod
     def get_view_module(view_class, authenticated):
-        # set different folder for authenticated views
+        """
+            Set different folder for authenticated views
+        """
+
         if authenticated == "yes":
             return f"views.Auth.{view_class}"
         elif authenticated == "no":
@@ -40,7 +56,11 @@ class ViewCreator:
 
     @staticmethod
     def import_view(view_module, view_class, view_name):
-        # attempt to import the view
+
+        """
+            Import module and return view
+        """
+
         try:
             module_import = importlib.import_module(view_module)
             view_class = getattr(module_import, view_class)
@@ -52,7 +72,10 @@ class ViewCreator:
 
     @staticmethod
     def setup_connections(view, connections):
-        # retrieve connections (switches from views) and bind them to specific views
+        """
+            Set up window relations: switching between windows and views, provide connections
+        """
+
         if connections:
             for connection in connections:
                 switch, connected_view = connection

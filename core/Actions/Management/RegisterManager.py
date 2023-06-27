@@ -9,13 +9,13 @@ from core.Models.User import User
 
 
 class RegisterManager(User):
+
+    """
+        This class handles the user creation process
+    """
+
     def __init__(self):
         super().__init__()
 
     def submit(self):
-
         self.create_user()
-
-        # TODO:
-        #  1) forward to self.create_user
-        #  2) forward to the next screen (depending on the existence of a particular dataset)

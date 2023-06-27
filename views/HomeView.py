@@ -23,6 +23,7 @@ class HomeView(QMainWindow, EnvironmentConfigurator, ViewController, LayoutConfi
     def __init__(self):
         super().__init__()
 
+        # set Ui (must happen before doing anything else because any alterations to the window won't work)
         self.ui = self.load_home_ui()
 
         for key, value in EnvironmentConfigurator.app_credentials.items():
@@ -35,7 +36,7 @@ class HomeView(QMainWindow, EnvironmentConfigurator, ViewController, LayoutConfi
         self.login_nav = None
 
         self.setup_navigation()
-        self.content()
+        self.show_content()
 
     def setup_navigation(self):
 
@@ -51,9 +52,8 @@ class HomeView(QMainWindow, EnvironmentConfigurator, ViewController, LayoutConfi
         self.register_nav = button_register
         self.login_nav = button_login
 
-    def content(self):
+    def show_content(self):
 
-        # set ui
         ui = self.ui
 
         # navigation

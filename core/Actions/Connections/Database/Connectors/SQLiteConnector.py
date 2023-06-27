@@ -14,8 +14,6 @@ import os
 
 class SQLiteConnector(EnvironmentConfigurator):
 
-    # TODO: Build functionality for checking the connection (instead of checking whether the connection is valid or not)
-
     cwd = os.getcwd()
 
     def __init__(self):
@@ -48,32 +46,55 @@ class SQLiteConnector(EnvironmentConfigurator):
             if 'DB_PASS' in key:
                 self.db_pass = value
 
+    def project_root(self):
+
+        # TODO: Move this function
+
+        current_file = __file__
+
+        # Get the absolute path of the current file
+        current_file_path = os.path.abspath(current_file)
+
+        # Split the path into directory components
+        components = current_file_path.split(os.path.sep)
+
+        # Find the index of the directory you want to consider as the project root
+        index = components.index("LearningQt")  # TODO: Dynamic instead of static
+
+        # Join the directory components up to the project root index
+        project_root = os.path.sep.join(components[:index + 1])
+
+        return project_root
+
     def database_path(self):
 
         # set connection credentials
         self.set_env()
 
-        # get the path to the current file
-        current_file = __file__
-
-        # get the path to the root of the project directory
-        project_root = current_file
-        while not os.path.exists(os.path.join(project_root, self.db_name)):
-            project_root = os.path.dirname(project_root)
-        project_root = os.path.join(project_root, self.db_name)
-
-        # TODO: Maybe change self.db_name usage from above with the project_name (new env)?
-
-        # define the name of the subdirectory and database file
-        subdir = "src/db"
+        project_root = self.project_root()
+        db_directory = "src/db"
         db_name = self.db_name
 
-        # construct the full path to the database file
-        dir_path = os.path.join(project_root, subdir)
-        full_path = os.path.join(dir_path, db_name + '.sqlite')
+        if db_name is None:
+            ValueError("db_name has not been set")
 
-        if full_path:
-            self.db_path = full_path
+        # Verify if project_root and db_directory exist
+        if os.path.exists(project_root) and os.path.isdir(project_root):
+
+            db_directory_path = os.path.join(project_root, db_directory)
+
+            if os.path.exists(db_directory_path) and os.path.isdir(db_directory_path):
+                if self.db_name is not None and isinstance(self.db_name, str):
+                    # sqlite is temporary
+                    full_path = os.path.join(db_directory_path, self.db_name + ".sqlite")
+                    self.db_path = full_path
+                else:
+                    print("Invalid database name:", self.db_name)
+            else:
+                print("Database directory does not exist:", db_directory_path)
+
+        else:
+            print("Project root directory does not exist:", project_root)
 
     def initialize_connection(self):
 

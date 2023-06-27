@@ -1,18 +1,12 @@
 - Provide user interactions for the register and login view (QLineEdit's) 'Showing when there's something wrong with filled in credentials)
 
-- Cleanup the Controllers
-
-- Provide the user session through the Controllers (when authenticated equals to yes.. serve)
-
-- Session verification (check within authenticated views if the session exists)
-
 - Add logout functionality (destroy session)
 
 - Improve visual design (reorganizing the css implementation and change style + maybe adding some images)
 
 - Update Readme.md
 
-- Structure improvements (file & folder tree organization)
+- Test this project in a clear environment, it seems that when the repository has been cloned and checked out at
+development, the application won't start because of database functionality
 
-- Add support for logging database actions (Extra, not really important for this environment)
-Per individual piece of functionality
+- Think about Minimal Viable Product

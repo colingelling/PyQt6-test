@@ -16,7 +16,8 @@ class ViewMapping:
     def not_authenticated(self):
         pattern = {
             "HomeView": {
-                "class": "HomeView",
+                "view_class": "HomeView",
+                "window_class": "HomeWindow",
                 "authenticated": "no",
                 "connections": [
                     ("switch_second", "RegisterView"),
@@ -24,7 +25,8 @@ class ViewMapping:
                 ]
             },
             "RegisterView": {
-                "class": "RegisterView",
+                "view_class": "RegisterView",
+                "window_class": "RegisterWindow",
                 "authenticated": "no",
                 "connections": [
                     ("switch_first", "HomeView"),
@@ -32,7 +34,8 @@ class ViewMapping:
                 ]
             },
             "LoginView": {
-                "class": "LoginView",
+                "view_class": "LoginView",
+                "window_class": "LoginWindow",
                 "authenticated": "no",
                 "connections": [
                     ("switch_first", "HomeView"),
@@ -50,7 +53,8 @@ class ViewMapping:
 
         pattern = {
             "UserView": {
-                "class": "UserView",
+                "view_class": "UserView",
+                "window_class": "UserWindow",
                 "authenticated": "yes",
             }
         }

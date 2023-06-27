@@ -9,22 +9,17 @@ from core.Handlers.Sessions.UserSessions import UserSessions
 
 
 class LoginManager(UserSessions):
+
+    """
+        This class handles the login process for the user
+    """
+
     def __init__(self):
         super().__init__()
 
     def submit(self):
 
-        """
-
-        This method is responsible for handling a collection of required functionality
-        :return:
-        1) login process, communication with the database
-        2) create a 'session' with PyQt6 and store the user_id
-        3) retrieve the session
-        4) forward to the next window -> when logged in
-
-        """
-
+        # verify the login state and bind the logged user to a session (QtSettings session manager)
         self.login_user()
         self.set_session()
 

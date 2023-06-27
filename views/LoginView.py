@@ -24,17 +24,20 @@ class LoginView(QMainWindow, ViewController, LayoutConfigurator, LoginManager):
     def __init__(self):
         super(LoginView, self).__init__()
 
+        # set Ui (must happen before doing anything else because any alterations to the window won't work)
         self.ui = self.load_login_ui()
 
-        window_title = 'Login'  # TODO: use another specific subjected file for these type of things
-        self.setWindowTitle(f"{window_title}: My first PyQt6 program!")
+        for key, value in self.app_credentials.items():
+            if 'NAME' in key:
+                self.window_title = 'Login'
+                self.setWindowTitle(f"{self.window_title}: {value}")
 
         self.home_nav = None
         self.register_nav = None
         self.login_nav = None
 
         self.setup_navigation()
-        self.content()
+        self.show_content()
 
     def setup_navigation(self):
 
@@ -50,7 +53,7 @@ class LoginView(QMainWindow, ViewController, LayoutConfigurator, LoginManager):
         self.register_nav = button_register
         self.login_nav = button_login
 
-    def content(self):
+    def show_content(self):
         # set ui
         ui = self.ui
 
