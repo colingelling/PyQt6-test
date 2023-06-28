@@ -58,8 +58,15 @@ class SQLiteConnector(EnvironmentConfigurator):
         # Split the path into directory components
         components = current_file_path.split(os.path.sep)
 
+        db_name = None
+
+        from core.Configurators.EnvironmentConfigurator import EnvironmentConfigurator
+        for key, value in EnvironmentConfigurator.app_credentials.items():
+            if 'NAME' in key:
+                db_name = value
+
         # Find the index of the directory you want to consider as the project root
-        index = components.index("LearningQt")  # TODO: Dynamic instead of static
+        index = components.index(db_name)
 
         # Join the directory components up to the project root index
         project_root = os.path.sep.join(components[:index + 1])
@@ -72,29 +79,32 @@ class SQLiteConnector(EnvironmentConfigurator):
         self.set_env()
 
         project_root = self.project_root()
-        db_directory = "src/db"
+        source_directory = "src"
+        db_directory = "db"
         db_name = self.db_name
 
         if db_name is None:
-            ValueError("db_name has not been set")
+            ValueError("db_name has not been set.")
 
         # Verify if project_root and db_directory exist
-        if os.path.exists(project_root) and os.path.isdir(project_root):
+        if not os.path.exists(project_root):
+            raise Error(f"There's something wrong as '{project_root}' does not exist!")
 
-            db_directory_path = os.path.join(project_root, db_directory)
+        src_path = os.path.join(project_root, source_directory)
+        db_directory_path = src_path + "/" + db_directory
 
-            if os.path.exists(db_directory_path) and os.path.isdir(db_directory_path):
-                if self.db_name is not None and isinstance(self.db_name, str):
-                    # sqlite is temporary
-                    full_path = os.path.join(db_directory_path, self.db_name + ".sqlite")
-                    self.db_path = full_path
-                else:
-                    print("Invalid database name:", self.db_name)
-            else:
-                print("Database directory does not exist:", db_directory_path)
+        if not os.path.exists(src_path) and os.path.exists(project_root):
+            os.makedirs(db_directory_path, exist_ok=True)
 
+        if not os.path.exists(db_directory_path):
+            print("Database directory path has not been found!")
+
+        db_path = db_directory_path + "/" + self.db_name + ".sqlite"
+
+        if os.path.exists(db_directory_path):
+            self.db_path = db_path
         else:
-            print("Project root directory does not exist:", project_root)
+            print("Database directory does not exist:", db_directory_path)
 
     def initialize_connection(self):
 
