@@ -7,15 +7,14 @@ Using Pycharm Professional
 
 from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
+from PyQt6.QtWidgets import QMainWindow
 
 from core.Actions.Controllers.Navigation.ViewController import ViewController
 from core.Configurators.EnvironmentConfigurator import EnvironmentConfigurator
 from core.Configurators.LayoutConfigurator import LayoutConfigurator
 
 
-class UserView(EnvironmentConfigurator, ViewController, LayoutConfigurator):
-
-    # TODO: find a solution for multiple inheritance, can be messy like the way that it is now
+class UserView(QMainWindow, EnvironmentConfigurator, ViewController, LayoutConfigurator):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()

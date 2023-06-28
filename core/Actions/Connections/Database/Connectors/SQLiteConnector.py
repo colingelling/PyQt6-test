@@ -96,8 +96,6 @@ class SQLiteConnector(EnvironmentConfigurator):
         if os.path.exists(src_path) and not os.path.exists(db_directory_path):
             os.makedirs(db_directory_path, exist_ok=True)
 
-        print(db_directory_path)
-
         if not os.path.exists(db_directory_path):
             print("Database directory path has not been found!")
 
