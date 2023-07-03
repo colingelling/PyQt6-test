@@ -1,0 +1,22 @@
+Project PyQt6-test:
+
+This project is a test environment for trying things out and expanding knowledge. This includes a fundamental structure to begin with, it follows a specific path of navigating between files (resources). Files could have different purposes, one side for example is for supporting functionalities and the other for launching parts of the layout (physical side)
+
+Understanding language specific terms (Explanation to those who need it):
+- A 'class' is equal to an object, something as a whole which includes a set of information and instructions. For example, a cardboard box could contain all sorts of things which hold value equal to information. For programming, those values could be used to obtain something. In order to do that, values are used within functionalities which instruct the program about what to do where and how to do that.
+
+- An 'attribute' could be equal to the realtime defenition; it holds information, a changeble value that is a property of a class. The Attribute could be an empty thing, that thing could have value at some point.
+
+The project structure is explained (in order) as:
+
+1. main.py file: This handles the execution of background functionality next to other parts in order for the application to run properly. (Resourses <-> Physical) 
+
+2. bootstrap/Bootstrapper.py: This handes the execution of several tasks like an environmental '.env' setup (file including keys and values about the entire project), navigation handling between windows (managing the window display) and providing a database connection for user depended tasks such as registering and logging in.
+
+3. Then the bootstrap/Bootstrapper.py handles the environmental credentials setup. Include an EnvironmentalConfigurator class (external file), read from the '.env' within that class and assign those credentials (as values) to class attributes
+
+4. Back to the Bootstrapper file, the next part contains the management system for loading physical content like Views (Content elements with values in relation to the windows) and Windows (Designer files, elements from here are not assigned to any value) - Which also means that the 'view' is responsible for the value assignment
+
+5. Then the Bootstrapper manages the database setup, it will make a new connection or use the existing one according to environmental information. This uses the values of step 2 and is capable of setting up the connection and stopping it after.
+
+6. Finally, the Bootstrapper starts a 'method' to use the database connection in order to create a database table for any registered users.
