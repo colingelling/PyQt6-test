@@ -9,12 +9,12 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
-from core.Actions.Controllers.Navigation.ViewController import ViewController
-from core.Configurators.LayoutConfigurator import LayoutConfigurator
-from core.Actions.Management.RegisterManager import RegisterManager
+from core.Controllers.Navigation.ViewController import ViewController
+from core.Layout.SetUi import SetUi
+from core.Modules.Manage.ManageRegister import RegisterManager
 
 
-class RegisterView(QMainWindow, ViewController, LayoutConfigurator, RegisterManager):
+class RegisterView(QMainWindow, ViewController, SetUi, RegisterManager):
 
     switch_first = QtCore.pyqtSignal(str)
     switch_second = QtCore.pyqtSignal(str)
@@ -27,10 +27,6 @@ class RegisterView(QMainWindow, ViewController, LayoutConfigurator, RegisterMana
         self.ui = self.load_register_ui()
 
         for key, value in self.app_credentials.items():
-            # TODO: This has no influence on the output. However, inheriting EnvironmentConfigurator to use the same
-            #  approach as in the HomeView breaks the windows which require database actions. The SQLiteConnector
-            #  inherits the class already so it wouldn't be needed here.
-
             if 'NAME' in key:
                 self.window_title = 'Register'
                 self.setWindowTitle(f"{self.window_title}: { value }")

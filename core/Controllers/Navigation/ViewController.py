@@ -5,7 +5,7 @@ Using Pycharm Professional
 
 """
 
-from core.Actions.Controllers.Navigation.NavigationController import NavigationController
+from core.Controllers.Navigation.NavigationController import NavigationController
 
 
 class ViewController(NavigationController):

@@ -6,7 +6,7 @@ Using Pycharm Professional
 """
 from sqlite3 import Error
 
-from core.Actions.Connections.Database.Connectors.SQLiteConnector import SQLiteConnector
+from core.Connections.Database.Connectors.SQLiteConnector import SQLiteConnector
 
 
 class User(SQLiteConnector):

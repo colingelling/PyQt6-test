@@ -81,7 +81,7 @@ class ViewCreator:
                 switch, connected_view = connection
                 switch_attr = getattr(view, switch, None)
                 if switch_attr is not None:
-                    from core.Actions.Controllers.Navigation.NavigationController import NavigationController
+                    from core.Controllers.Navigation.NavigationController import NavigationController
                     switch_attr[str].connect(lambda cv=connected_view: NavigationController.set_view(cv, connection))
 
                 else:

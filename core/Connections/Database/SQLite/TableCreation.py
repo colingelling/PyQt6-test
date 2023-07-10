@@ -1,5 +1,5 @@
 
-from core.Actions.Connections.Database.Connectors.SQLiteConnector import SQLiteConnector
+from core.Connections.Database.Connectors.SQLiteConnector import SQLiteConnector
 
 
 class TableCreation(SQLiteConnector):

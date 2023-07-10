@@ -9,12 +9,12 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
-from core.Actions.Controllers.Navigation.ViewController import ViewController
-from core.Configurators.EnvironmentConfigurator import EnvironmentConfigurator
-from core.Configurators.LayoutConfigurator import LayoutConfigurator
+from core.Controllers.Navigation.ViewController import ViewController
+from core.Environment.SetEnvironmentVariables import SetEnvironmentVariables
+from core.Layout.SetUi import SetUi
 
 
-class UserView(QMainWindow, EnvironmentConfigurator, ViewController, LayoutConfigurator):
+class UserView(QMainWindow, SetEnvironmentVariables, ViewController, SetUi):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()
@@ -30,7 +30,7 @@ class UserView(QMainWindow, EnvironmentConfigurator, ViewController, LayoutConfi
         import views.Auth.Sessions.requests as SessionRequests
         SessionRequests.load_user_session()
 
-        for key, value in EnvironmentConfigurator.app_credentials.items():
+        for key, value in SetEnvironmentVariables.app_credentials.items():
             if 'NAME' in key:
                 self.setWindowTitle(f"Welcome | {value}")
 

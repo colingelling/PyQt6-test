@@ -23,7 +23,7 @@ class LoginManager(UserSessions):
         self.login_user()
         self.set_session()
 
-        from core.Actions.Controllers.Navigation.ViewController import ViewController
+        from core.Controllers.Navigation.ViewController import ViewController
         controller = ViewController()
 
         # forward to the view after login

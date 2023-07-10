@@ -6,7 +6,7 @@ Using Pycharm Professional
 """
 
 
-class LayoutConfigurator:
+class SetUi:
 
     def __init__(self):
         super().__init__()

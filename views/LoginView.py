@@ -10,12 +10,12 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
-from core.Actions.Controllers.Navigation.ViewController import ViewController
-from core.Actions.Management.LoginManager import LoginManager
-from core.Configurators.LayoutConfigurator import LayoutConfigurator
+from core.Controllers.Navigation.ViewController import ViewController
+from core.Modules.Manage.ManageLogin import LoginManager
+from core.Layout.SetUi import SetUi
 
 
-class LoginView(QMainWindow, ViewController, LayoutConfigurator, LoginManager):
+class LoginView(QMainWindow, ViewController, SetUi, LoginManager):
 
     switch_first = QtCore.pyqtSignal(str)
     switch_second = QtCore.pyqtSignal(str)

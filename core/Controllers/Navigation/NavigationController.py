@@ -7,7 +7,7 @@ Using Pycharm Professional
 
 from PyQt6 import QtCore
 
-from core.Storage.Navigation.Mapping.ViewMapping import ViewMapping
+from core.Controllers.Navigation.Views.Mapping.ViewMapping import ViewMapping
 
 
 class NavigationController(QtCore.QObject, ViewMapping):
@@ -59,7 +59,7 @@ class NavigationController(QtCore.QObject, ViewMapping):
         """
 
         # set available instances
-        from core.Actions.Creators.ViewCreator import ViewCreator
+        from core.Controllers.Navigation.Views.CreateView import ViewCreator
         mapping = ViewMapping()
         creator = ViewCreator()
 
