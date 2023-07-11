@@ -1,12 +1,19 @@
-- Provide user interactions for the register and login view (QLineEdit's) 'Showing when there's something wrong with filled in credentials)
+- Minify some statements within the project
 
-- Add logout functionality (destroy session)
+- Add 'form' checkup functionality, send a warning after someone tried to process wrong user credentials
 
-- Improve visual design (reorganizing the css implementation and change style + maybe adding some images)
+- Add functionality that warns about the environment file, send a message when it has not be set
 
-- Update Readme.md
+- Finalize readme
 
-- Test this project in a clear environment, it seems that when the repository has been cloned and checked out at
-development, the application won't start because of database functionality
+- Check active session per window (if authenticated == yes)
 
-- Think about Minimal Viable Product
+- Add functionality for checking if the APP_NAME's value is equal to the folder name since it is required by processing the database connection
+
+- Add logout functionality
+
+- Finish retrieving custom user data from the database (UserView)
+
+- Provide modern Ui
+
+- Remember: Try holding on to MVP
