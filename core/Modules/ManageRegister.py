@@ -8,7 +8,7 @@ Using Pycharm Professional
 from core.Models.User import User
 
 
-class RegisterManager(User):
+class ManageRegister(User):
 
     """
         This class handles the user creation process

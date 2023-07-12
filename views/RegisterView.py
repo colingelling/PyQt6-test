@@ -9,12 +9,12 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
-from core.Controllers.Navigation.ViewController import ViewController
-from core.Layout.SetUi import SetUi
-from core.Modules.Manage.ManageRegister import RegisterManager
+from core.Controllers.ViewController import ViewController
+from core.Modules.ManageRegister import ManageRegister
+from core.Layout.ManageUi import ManageUi
 
 
-class RegisterView(QMainWindow, ViewController, SetUi, RegisterManager):
+class RegisterView(QMainWindow, ViewController, ManageUi, ManageRegister):
 
     switch_first = QtCore.pyqtSignal(str)
     switch_second = QtCore.pyqtSignal(str)

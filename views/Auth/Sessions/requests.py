@@ -1,7 +1,7 @@
 def load_user_session():
     # get access to the other class first
-    from core.Handlers.Sessions.UserSessions import UserSessions
-    user_sessions = UserSessions()
+    from core.Sessions.ManageUserSession import ManageUserSession
+    user_sessions = ManageUserSession()
 
     # open the session
     user_sessions.open_session()

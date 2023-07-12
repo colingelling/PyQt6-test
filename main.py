@@ -12,8 +12,7 @@ def main():
     app = QtWidgets.QApplication(sys.argv)
 
     from bootstrap.Bootstrapper import Bootstrapper
-    bootstrap = Bootstrapper()
-    bootstrap.setup_controller()
+    Bootstrapper()
 
     sys.exit(app.exec())
 

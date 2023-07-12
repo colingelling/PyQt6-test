@@ -9,12 +9,12 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
-from core.Controllers.Navigation.ViewController import ViewController
-from core.Environment.SetEnvironmentVariables import SetEnvironmentVariables
-from core.Layout.SetUi import SetUi
+from core.Controllers.ViewController import ViewController
+from core.Environment.CollectEnvironmentalValues import CollectEnvironmentalValues
+from core.Layout.ManageUi import ManageUi
 
 
-class UserView(QMainWindow, SetEnvironmentVariables, ViewController, SetUi):
+class UserView(QMainWindow, CollectEnvironmentalValues, ViewController, ManageUi):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()
@@ -30,13 +30,13 @@ class UserView(QMainWindow, SetEnvironmentVariables, ViewController, SetUi):
         import views.Auth.Sessions.requests as SessionRequests
         SessionRequests.load_user_session()
 
-        for key, value in SetEnvironmentVariables.app_credentials.items():
+        for key, value in CollectEnvironmentalValues.app_credentials.items():
             if 'NAME' in key:
                 self.setWindowTitle(f"Welcome | {value}")
 
         # set accessible class
-        from core.Handlers.Sessions.UserSessions import UserSessions
-        self.user_sessions = UserSessions()
+        from core.Sessions.ManageUserSession import ManageUserSession
+        self.user_sessions = ManageUserSession()
 
         # set navigation
         self.setup_navigation()

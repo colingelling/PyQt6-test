@@ -8,7 +8,7 @@ Using Pycharm Professional
 from dotenv import load_dotenv, dotenv_values
 
 
-class SetEnvironmentVariables:
+class CollectEnvironmentalValues:
 
     """
         This Class is all about doing tasks with the environment based on a single file (.env).
@@ -32,15 +32,15 @@ class SetEnvironmentVariables:
         """
 
         # retrieve keys and values
-        env_dict = SetEnvironmentVariables.read_env()
+        env_dict = CollectEnvironmentalValues.read_env()
 
         # loop through them in order to declare and separate values into groups
         for key, value in env_dict.items():
             if 'APP' in key:
-                attribute = SetEnvironmentVariables.app_credentials
+                attribute = CollectEnvironmentalValues.app_credentials
                 attribute.update({key: value})
             if 'DB' in key:
-                attribute = SetEnvironmentVariables.db_credentials
+                attribute = CollectEnvironmentalValues.db_credentials
                 attribute.update({key: value})
 
     @staticmethod

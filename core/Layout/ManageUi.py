@@ -6,7 +6,7 @@ Using Pycharm Professional
 """
 
 
-class SetUi:
+class ManageUi:
 
     def __init__(self):
         super().__init__()
@@ -34,6 +34,3 @@ class SetUi:
         ui = Ui_UserWindow()
         ui.setupUi(self)
         return ui
-
-    def load_home_stylesheet(self):
-        pass

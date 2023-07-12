@@ -5,14 +5,14 @@ Using Pycharm Professional
 
 """
 
-from core.Environment.SetEnvironmentVariables import SetEnvironmentVariables
+from core.Environment.CollectEnvironmentalValues import CollectEnvironmentalValues
 from PyQt6.QtSql import QSqlDatabase, QSqlQuery
 from sqlite3 import Error
 
 import os
 
 
-class SQLiteConnector(SetEnvironmentVariables):
+class SQLiteConnector(CollectEnvironmentalValues):
 
     cwd = os.getcwd()
 
@@ -33,7 +33,7 @@ class SQLiteConnector(SetEnvironmentVariables):
 
     def set_env(self):
         # define Dictionary for receiving environmental values
-        db_credentials = SetEnvironmentVariables.db_credentials
+        db_credentials = CollectEnvironmentalValues.db_credentials
 
         # set class attributes
         for key, value in db_credentials.items():
@@ -60,8 +60,8 @@ class SQLiteConnector(SetEnvironmentVariables):
 
         db_name = None
 
-        from core.Environment.SetEnvironmentVariables import SetEnvironmentVariables
-        for key, value in SetEnvironmentVariables.app_credentials.items():
+        from core.Environment.CollectEnvironmentalValues import CollectEnvironmentalValues
+        for key, value in CollectEnvironmentalValues.app_credentials.items():
             if 'NAME' in key:
                 db_name = value
 

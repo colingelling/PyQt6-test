@@ -7,10 +7,10 @@ Using Pycharm Professional
 
 from PyQt6.QtCore import QSettings
 
-from core.Handlers.Database.UserDatabaseHandler import UserDatabaseHandler
+from core.Database.Managers.ManageSQLiteConnection import ManageSQLiteConnection
 
 
-class UserSessions(UserDatabaseHandler):
+class ManageUserSession(ManageSQLiteConnection):
 
     settings = QSettings()
 
@@ -101,7 +101,7 @@ class UserSessions(UserDatabaseHandler):
                         })
 
             # push collection values to the next one in order to finish the task
-            UserDatabaseHandler.new_session.update(new)
+            ManageSQLiteConnection.new_session.update(new)
 
             # function call giving a parameter for retrieving database table information
             self.retrieve_rows('users')

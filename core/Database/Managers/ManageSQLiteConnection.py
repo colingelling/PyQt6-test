@@ -8,7 +8,7 @@ Using Pycharm Professional
 from core.Models.User import User
 
 
-class UserDatabaseHandler(User):
+class ManageSQLiteConnection(User):
 
     requested_session = []
     new_session = {}

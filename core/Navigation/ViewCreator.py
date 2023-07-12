@@ -81,8 +81,8 @@ class ViewCreator:
                 switch, connected_view = connection
                 switch_attr = getattr(view, switch, None)
                 if switch_attr is not None:
-                    from core.Controllers.Navigation.NavigationController import NavigationController
-                    switch_attr[str].connect(lambda cv=connected_view: NavigationController.set_view(cv, connection))
+                    from core.Navigation.ViewManager import ViewManager
+                    switch_attr[str].connect(lambda cv=connected_view: ViewManager.set_view(cv, connection))
 
                 else:
                     print(f"Switch attribute '{switch}' not found in the view")

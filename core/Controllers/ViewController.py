@@ -5,10 +5,10 @@ Using Pycharm Professional
 
 """
 
-from core.Controllers.Navigation.NavigationController import NavigationController
+from core.Navigation.ViewManager import ViewManager
 
 
-class ViewController(NavigationController):
+class ViewController(ViewManager):
     def __init__(self):
         super().__init__()
 

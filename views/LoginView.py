@@ -10,12 +10,12 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
-from core.Controllers.Navigation.ViewController import ViewController
-from core.Modules.Manage.ManageLogin import LoginManager
-from core.Layout.SetUi import SetUi
+from core.Controllers.ViewController import ViewController
+from core.Modules.ManageLogin import ManageLogin
+from core.Layout.ManageUi import ManageUi
 
 
-class LoginView(QMainWindow, ViewController, SetUi, LoginManager):
+class LoginView(QMainWindow, ViewController, ManageUi, ManageLogin):
 
     switch_first = QtCore.pyqtSignal(str)
     switch_second = QtCore.pyqtSignal(str)
@@ -88,8 +88,8 @@ class LoginView(QMainWindow, ViewController, SetUi, LoginManager):
     def pre_submit(self):
 
         """
-        Prepare the submit process. Creating a Dictionary and filling it with the form field data before forwarding.
-        :return:
+            Prepare the submit process. Creating a Dictionary and filling it with the form field data before forwarding.
+            :return:
         """
 
         ui = self.ui

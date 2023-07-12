@@ -8,7 +8,7 @@ Using Pycharm Professional
 from PyQt6.QtCore import QSettings
 
 
-class ViewSessions:
+class ManageViewSession:
     view_session = {}
     view_objects = {}
     counter = 0
@@ -19,8 +19,8 @@ class ViewSessions:
 
     @classmethod
     def generate_unique_identifier(cls):
-        ViewSessions.counter += 1
-        return ViewSessions.counter
+        ManageViewSession.counter += 1
+        return ManageViewSession.counter
 
     def set_session(self):
         # activate a session instance
@@ -31,7 +31,7 @@ class ViewSessions:
             for key, value in self.view_session.items():
                 if value is not None:
                     view_identifier = self.generate_unique_identifier()
-                    ViewSessions.view_objects[view_identifier] = value
+                    ManageViewSession.view_objects[view_identifier] = value
                     self.settings.setValue(key, view_identifier)
 
         # close session
@@ -47,7 +47,7 @@ class ViewSessions:
         for key in keys:
             view_identifier = self.settings.value(key)
             if view_identifier is not None:
-                view_object = ViewSessions.view_objects.get(view_identifier)
+                view_object = ManageViewSession.view_objects.get(view_identifier)
                 if view_object is not None:
                     view_objects = {key: view_object}
                 else:

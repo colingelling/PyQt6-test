@@ -5,10 +5,10 @@ Using Pycharm Professional
 
 """
 
-from core.Handlers.Sessions.UserSessions import UserSessions
+from core.Sessions.ManageUserSession import ManageUserSession
 
 
-class LoginManager(UserSessions):
+class ManageLogin(ManageUserSession):
 
     """
         This class handles the login process for the user
@@ -23,7 +23,7 @@ class LoginManager(UserSessions):
         self.login_user()
         self.set_session()
 
-        from core.Controllers.Navigation.ViewController import ViewController
+        from core.Controllers.ViewController import ViewController
         controller = ViewController()
 
         # forward to the view after login

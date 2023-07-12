@@ -7,10 +7,10 @@ Using Pycharm Professional
 
 from PyQt6 import QtCore
 
-from core.Controllers.Navigation.Views.Mapping.ViewMapping import ViewMapping
+from core.Navigation.Mapping.ViewMapping import ViewMapping
 
 
-class NavigationController(QtCore.QObject, ViewMapping):
+class ViewManager(QtCore.QObject, ViewMapping):
 
     def __init__(self):
         super().__init__()
@@ -30,15 +30,15 @@ class NavigationController(QtCore.QObject, ViewMapping):
             view = self.create_view(view_name, authenticated)
             self.views[view_name] = view
 
-            from core.Handlers.Sessions.ViewSessions import ViewSessions
-            self.view_session = ViewSessions()
+            from core.Sessions.ManageViewSession import ManageViewSession
+            self.view_session = ManageViewSession()
 
             # get both the old view and next view
-            old_view = ViewSessions.view_session.get('current_view')
+            old_view = ManageViewSession.view_session.get('current_view')
             current_view = self.views[view_name]
 
             # put them into a Dictionary
-            ViewSessions.view_session = {
+            ManageViewSession.view_session = {
                 'old_view': old_view,
                 'current_view': current_view
             }
@@ -59,7 +59,7 @@ class NavigationController(QtCore.QObject, ViewMapping):
         """
 
         # set available instances
-        from core.Controllers.Navigation.Views.CreateView import ViewCreator
+        from core.Navigation.ViewCreator import ViewCreator
         mapping = ViewMapping()
         creator = ViewCreator()
 

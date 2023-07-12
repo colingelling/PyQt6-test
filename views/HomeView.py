@@ -9,12 +9,12 @@ from PyQt6 import QtCore
 from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtGui import QAction
 
-from core.Controllers.Navigation.ViewController import ViewController
-from core.Environment.SetEnvironmentVariables import SetEnvironmentVariables
-from core.Layout.SetUi import SetUi
+from core.Environment.CollectEnvironmentalValues import CollectEnvironmentalValues
+from core.Controllers.ViewController import ViewController
+from core.Layout.ManageUi import ManageUi
 
 
-class HomeView(QMainWindow, SetEnvironmentVariables, ViewController, SetUi):
+class HomeView(QMainWindow, CollectEnvironmentalValues, ViewController, ManageUi):
 
     switch_first = QtCore.pyqtSignal(str)
     switch_second = QtCore.pyqtSignal(str)
@@ -26,7 +26,7 @@ class HomeView(QMainWindow, SetEnvironmentVariables, ViewController, SetUi):
         # set Ui (must happen before doing anything else because any alterations to the window won't work)
         self.ui = self.load_home_ui()
 
-        for key, value in SetEnvironmentVariables.app_credentials.items():
+        for key, value in CollectEnvironmentalValues.app_credentials.items():
             if 'NAME' in key:
                 self.window_title = 'Home'
                 self.setWindowTitle(f"{self.window_title}: { value }")
