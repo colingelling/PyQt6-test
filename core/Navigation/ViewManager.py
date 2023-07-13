@@ -1,7 +1,7 @@
 """
 
-Created by Colin Gelling on 20/2/2023
-Using Pycharm Professional
+    Created by Colin Gelling on 20/02/2023
+    Using Pycharm Professional
 
 """
 
@@ -95,8 +95,9 @@ class ViewManager(QtCore.QObject, ViewMapping):
         session = self.view_session.get_session()
 
         # verify that the session is there
-        if session:
-            for key, value in session.items():
-                # close
-                if key == 'old_view':
-                    value.close()
+        if not session:
+            raise ValueError("Error: View session returned empty!")
+
+        for key, value in session.items():
+            if key == 'old_view':
+                value.close()

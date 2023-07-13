@@ -1,7 +1,7 @@
 """
 
-Created by Colin Gelling on 06/03/2023
-Using Pycharm Professional
+    Created by Colin Gelling on 06/03/2023
+    Using Pycharm Professional
 
 """
 
@@ -46,7 +46,8 @@ class SQLiteConnector(CollectEnvironmentalValues):
             if 'DB_PASS' in key:
                 self.db_pass = value
 
-    def project_root(self):
+    @staticmethod
+    def project_root():
 
         # TODO: Move this function
 
@@ -126,29 +127,27 @@ class SQLiteConnector(CollectEnvironmentalValues):
         # set database connection (driver)
         connection = QSqlDatabase.addDatabase(db_type, db_path)
 
-        if connection.isValid():
-
-            # only do something when the file has not been created earlier
-            if not os.path.exists(db_path):
-
-                print("Database file has not been found, initializing the connection now..")
-
-                try:
-
-                    # set the connection (create)
-                    connection.setDatabaseName(db_path)
-                    connection.open()
-
-                    # final check if the execution was successful
-                    if os.path.exists(db_path):
-                        print("Database connection has been created successfully!")
-                        connection.close()
-
-                except Error as e:
-                    raise Error(f"Could not create database: {e}")
-
-        else:
+        if not connection.isValid():
             raise Error("Connection could not be validated.")
+
+        # only do something when the file has not been created earlier
+        if not os.path.exists(db_path):
+
+            print("Database file has not been found, initializing now.")
+
+            try:
+
+                # set the connection (create)
+                connection.setDatabaseName(db_path)
+                connection.open()
+
+                # final check if the execution was successful
+                if os.path.exists(db_path):
+                    print("Database connection has been created successfully!")
+                    connection.close()
+
+            except Error as e:
+                raise Error(f"Could not create database: {e}")
 
     def open_connection(self):
 
@@ -172,35 +171,28 @@ class SQLiteConnector(CollectEnvironmentalValues):
         # load driver by declaring path
         connection = QSqlDatabase.database(db_path, open=False)
 
-        if connection.isValid():
-
-            if os.path.exists(db_path):
-
-                print("Database connection has been found, attempting to connect to it...")
-
-                try:
-
-                    # reach the database
-                    connection.setDatabaseName(db_path)
-                    connection.open()
-
-                    # assign connection objects to class attributes for access to other functions
-                    self.connection = connection
-                    self.query = QSqlQuery(connection)
-
-                    # check if the connection could be opened
-                    if not connection.open():
-                        print(f'Error opening database: { connection.lastError().text() }')
-                    else:
-                        print('Database connection successfully opened.')
-
-                except Error as e:
-                    raise Error(f"Could not set connection: {e}")
-            else:
-                raise Error("Database does not exist!")
-
-        else:
+        if not connection.isValid():
             raise Error("Connection could not be validated.")
+
+        if not os.path.exists(db_path):
+            raise Error("Database does not exist!")
+
+        try:
+
+            # reach the database
+            connection.setDatabaseName(db_path)
+            connection.open()
+
+            # assign connection objects to class attributes for access to other functions
+            self.connection = connection
+            self.query = QSqlQuery(connection)
+
+            # check if the connection could be opened
+            if not connection.open():
+                print(f'Error opening database: {connection.lastError().text()}')
+
+        except Error as e:
+            raise Error(f"Could not set connection: {e}")
 
     def close_connection(self):
 
@@ -209,25 +201,20 @@ class SQLiteConnector(CollectEnvironmentalValues):
         :return:
         """
 
-        # check whether attribute is available or not
-        if self.connection:
-            connection = self.connection
+        connection = self.connection
+        if not connection.isValid():
+            raise ValueError("Database connection is not available at this point.")
 
-            # the connection only could be closed when it was opened earlier
-            if connection.isOpen():
+        # the connection should be closed, only when it was opened earlier
+        if connection.isOpen():
 
-                # close the connection
-                connection.close()
+            # close the connection
+            connection.close()
 
-                # set attributes to empty
-                self.connection = None
-                self.query = None
+            # set attributes to empty
+            self.connection = None
+            self.query = None
 
-                # confirm if they are empty
-                if not self.connection and self.query:
-                    print("Database connections closed and cleared attributes.")
-                else:
-                    raise Warning("Database connections could not be emptied.")
-
-        else:
-            raise ValueError("Database connection was not set correctly for available use.")
+            # confirm if they are empty
+            if self.connection and self.query:
+                raise Warning("Database connections could not be emptied.")

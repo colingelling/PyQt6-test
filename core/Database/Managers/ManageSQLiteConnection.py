@@ -1,7 +1,7 @@
 """
 
-Created by Colin Gelling on 30/05/2023
-Using Pycharm Professional
+    Created by Colin Gelling on 30/05/2023
+    Using Pycharm Professional
 
 """
 
@@ -16,8 +16,6 @@ class ManageSQLiteConnection(User):
 
     def __init__(self):
         super().__init__()
-
-    # TODO: Maybe move the initialization of user_id for sessions into this class?
 
     def retrieve_rows(self, table):
 
@@ -38,7 +36,9 @@ class ManageSQLiteConnection(User):
         return self.new_session
 
     def retrieve_rows_from_database(self, table):
+
         new_session = self.new_session
+
         if new_session:
             for key, value in new_session.items():
                 session_id = None
@@ -71,7 +71,8 @@ class ManageSQLiteConnection(User):
 
         return new_session
 
-    def update_new_session(self, new_session):
+    @staticmethod
+    def update_new_session(new_session):
         # Update the new_session dictionary
         updated_session = {}
         for key, value in new_session.items():

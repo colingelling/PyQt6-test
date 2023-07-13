@@ -1,7 +1,7 @@
 """
 
-Created by Colin Gelling on 24/05/2023
-Using Pycharm Professional
+    Created by Colin Gelling on 24/05/2023
+    Using Pycharm Professional
 
 """
 
@@ -9,6 +9,7 @@ from PyQt6.QtCore import QSettings
 
 
 class ManageViewSession:
+
     view_session = {}
     view_objects = {}
     counter = 0
@@ -27,12 +28,14 @@ class ManageViewSession:
         self.settings.beginGroup("view_session")
         self.settings.clear()  # make sure that the session does not contain any 'view' values
 
-        if self.view_session:
-            for key, value in self.view_session.items():
-                if value is not None:
-                    view_identifier = self.generate_unique_identifier()
-                    ManageViewSession.view_objects[view_identifier] = value
-                    self.settings.setValue(key, view_identifier)
+        if not self.view_session:
+            raise ValueError("View session attribute has returned empty")
+
+        for key, value in self.view_session.items():
+            if value is not None:
+                view_identifier = self.generate_unique_identifier()
+                ManageViewSession.view_objects[view_identifier] = value
+                self.settings.setValue(key, view_identifier)
 
         # close session
         self.settings.endGroup()

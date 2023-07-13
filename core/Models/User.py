@@ -1,9 +1,10 @@
 """
 
-Created by Colin Gelling on 06/03/2023
-Using Pycharm Professional
+    Created by Colin Gelling on 06/03/2023
+    Using Pycharm Professional
 
 """
+
 from sqlite3 import Error
 
 from core.Database.Connectors.SQLiteConnector import SQLiteConnector
@@ -61,8 +62,6 @@ class User(SQLiteConnector):
         if not connection.isValid():
             raise ValueError("Connection is invalid.")
 
-        print(f"Creating user..")
-
         import sqlite3
         try:
 
@@ -100,13 +99,13 @@ class User(SQLiteConnector):
             if not query.exec():
                 raise Error("Error adding user:", query.lastError().text())
 
-            print("User created successfully!")
+            print("User has been created!")
             connection.commit()
 
         except sqlite3.Error as error:
             print("This program could not create the user:", error)
 
-        # TODO: self.close_connection doesn't work properly
+        # TODO: self.close_connection doesn't work properly yet
         # self.close_connection()
 
     def login_user(self):

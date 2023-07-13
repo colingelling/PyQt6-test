@@ -1,3 +1,11 @@
+"""
+
+    Created by Colin Gelling on 01/01/2023
+    Using Pycharm Professional
+
+"""
+
+
 def load_user_session():
     # get access to the other class first
     from core.Sessions.ManageUserSession import ManageUserSession

@@ -1,7 +1,7 @@
 """
 
-Created by Colin Gelling on 09/05/2023
-Using Pycharm Professional
+    Created by Colin Gelling on 09/05/2023
+    Using Pycharm Professional
 
 """
 
@@ -13,8 +13,7 @@ class CollectEnvironmentalValues:
     """
         This Class is all about doing tasks with the environment based on a single file (.env).
         In order to use the functionality, simply import the file in the document of choice and reach the class
-        by using multiple inheritance. The @classmethod is the main functionality, this would set the next two class
-        attributes.
+        by using multiple inheritance.
     """
 
     app_credentials = {}

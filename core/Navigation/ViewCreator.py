@@ -1,3 +1,10 @@
+"""
+
+    Created by Colin Gelling on 13/07/2023
+    Using Pycharm Professional
+
+"""
+
 import importlib
 
 
@@ -76,13 +83,15 @@ class ViewCreator:
             Set up window relations: switching between windows and views, provide connections
         """
 
-        if connections:
-            for connection in connections:
-                switch, connected_view = connection
-                switch_attr = getattr(view, switch, None)
-                if switch_attr is not None:
-                    from core.Navigation.ViewManager import ViewManager
-                    switch_attr[str].connect(lambda cv=connected_view: ViewManager.set_view(cv, connection))
+        if not connections:
+            return ValueError(f"Connections are not available or set for the view '{view}'")
 
-                else:
-                    print(f"Switch attribute '{switch}' not found in the view")
+        for connection in connections:
+            switch, connected_view = connection
+            switch_attr = getattr(view, switch, None)
+            if switch_attr is not None:
+                from core.Navigation.ViewManager import ViewManager
+                switch_attr[str].connect(lambda cv=connected_view: ViewManager.set_view(cv, connection))
+
+            else:
+                print(f"Switch attribute '{switch}' not found in the view")

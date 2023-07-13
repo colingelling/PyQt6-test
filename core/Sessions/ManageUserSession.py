@@ -1,7 +1,7 @@
 """
 
-Created by Colin Gelling on 03/03/2023
-Using Pycharm Professional
+    Created by Colin Gelling on 03/03/2023
+    Using Pycharm Professional
 
 """
 
@@ -59,10 +59,6 @@ class ManageUserSession(ManageSQLiteConnection):
             print("Session has been destroyed.")
 
     def check_session(self):
-        # TODO:
-        #   1) Get user id's
-        #   2) Compare session id with a user id
-        #   - Also use another approach for this?
 
         # retrieve user id's
         self.get_user_ids()

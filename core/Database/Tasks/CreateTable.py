@@ -1,3 +1,9 @@
+"""
+
+    Created by Colin Gelling on 13/07/2023
+    Using Pycharm Professional
+
+"""
 
 from core.Database.Connectors.SQLiteConnector import SQLiteConnector
 
