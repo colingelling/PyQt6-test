@@ -11,7 +11,7 @@ from PyQt6 import QtWidgets
 def main():
     app = QtWidgets.QApplication(sys.argv)
 
-    from bootstrap.Bootstrapper import Bootstrapper
+    from Bootstrap.bootstrapper import Bootstrapper
     Bootstrapper()
 
     sys.exit(app.exec())

@@ -6,61 +6,58 @@
 """
 
 from PyQt6 import QtCore
-from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtGui import QAction
+from PyQt6.QtWidgets import QMainWindow
 
-from core.Environment.CollectEnvironmentalValues import CollectEnvironmentalValues
-from core.Controllers.ViewController import ViewController
-from core.Layout.ManageUi import ManageUi
+from core.Controllers.WindowController import WindowController
 
 
-class HomeView(QMainWindow, CollectEnvironmentalValues, ViewController, ManageUi):
+class HomeView(QMainWindow, WindowController):
 
-    switch_first = QtCore.pyqtSignal(str)
-    switch_second = QtCore.pyqtSignal(str)
-    switch_third = QtCore.pyqtSignal(str)
+    switch_home = QtCore.pyqtSignal()
+    switch_register = QtCore.pyqtSignal()
+    switch_login = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
 
         # set Ui (must happen before doing anything else because any alterations to the window won't work)
-        self.ui = self.load_home_ui()
+        self.ui = self.load_ui()
 
-        for key, value in CollectEnvironmentalValues.app_credentials.items():
-            if 'NAME' in key:
-                self.window_title = 'Home'
-                self.setWindowTitle(f"{self.window_title}: { value }")
-
-        self.home_nav = None
-        self.register_nav = None
-        self.login_nav = None
+        self.setWindowTitle(f"Home")
 
         self.setup_navigation()
         self.show_content()
 
+    def load_ui(self):
+        from src.gui.ui.home.HomeWindow import Ui_HomeWindow
+        ui = Ui_HomeWindow()
+        ui.setupUi(self)
+        return ui
+
     def setup_navigation(self):
+
+        ui = self.ui
 
         button_home = QAction("Home", self)
         button_register = QAction("Register", self)
         button_login = QAction("Login", self)
 
+        # noinspection PyUnresolvedReferences
         button_home.triggered.connect(self.switch_home_window)
+        # noinspection PyUnresolvedReferences
         button_register.triggered.connect(self.switch_register_window)
+        # noinspection PyUnresolvedReferences
         button_login.triggered.connect(self.switch_login_window)
 
-        self.home_nav = button_home
-        self.register_nav = button_register
-        self.login_nav = button_login
+        menubar = ui.menuBar
+        menubar.addAction(button_home)
+        menubar.addAction(button_register)
+        menubar.addAction(button_login)
 
     def show_content(self):
 
         ui = self.ui
-
-        # navigation
-        menubar = ui.menuBar
-        menubar.addAction(self.home_nav)
-        menubar.addAction(self.register_nav)
-        menubar.addAction(self.login_nav)
 
         # Begin: tab widget (tab 1)
 
@@ -105,10 +102,10 @@ class HomeView(QMainWindow, CollectEnvironmentalValues, ViewController, ManageUi
         # End: tab widget (tab 2)
 
     def switch_home_window(self):
-        self.show_home()
+        self.switch_home.emit()
 
     def switch_register_window(self):
-        self.show_register()
+        self.switch_register.emit()
 
     def switch_login_window(self):
-        self.show_login()
+        self.switch_login.emit()

@@ -5,51 +5,60 @@
 
 """
 
-from core.Environment.CollectEnvironmentalValues import CollectEnvironmentalValues
 from PyQt6.QtSql import QSqlDatabase, QSqlQuery
 from sqlite3 import Error
 
 import os
 
 
-class SQLiteConnector(CollectEnvironmentalValues):
+class SQLiteConnector:
 
     cwd = os.getcwd()
+
+    # set credential attributes
+    db_type = None
+    db_name = None
+    db_path = None
+    db_user = None
+    db_pass = None
+
+    # set connection attributes
+    connection = None
+    query = None
 
     def __init__(self):
         super(SQLiteConnector, self).__init__()
 
-        # set credential attributes
-        self.db_type = None
-        self.db_name = None
-        self.db_user = None
-        self.db_pass = None
+    @staticmethod
+    def prepare():
 
-        self.db_path = None
+        db_type = "QSQLITE"
+        file_type = "sqlite"
+        db_path = "/src/db"
+        db_name = "LearningQt"
+        db_user = "root"
+        db_pass = "Admin1234"
 
-        # set connection attributes
-        self.connection = None
-        self.query = None
+        db_credentials = {
+            'db_type': db_type,
+            'file_type': file_type,
+            'db_path': db_path,
+            'db_name': db_name,
+            'db_user': db_user,
+            'db_pass': db_pass,
+        }
 
-    def set_env(self):
-        # define Dictionary for receiving environmental values
-        db_credentials = CollectEnvironmentalValues.db_credentials
-
-        # set class attributes
-        for key, value in db_credentials.items():
-            if 'DB_TYPE' in key:
-                self.db_type = value
-            if 'DB_NAME' in key:
-                self.db_name = value
-            if 'DB_USER' in key:
-                self.db_user = value
-            if 'DB_PASS' in key:
-                self.db_pass = value
+        return dict(db_credentials)
 
     @staticmethod
-    def project_root():
+    def store_credentials(db_type, db_name):
+        SQLiteConnector.db_type = db_type
+        SQLiteConnector.db_name = db_name
 
-        # TODO: Move this function
+        return SQLiteConnector.db_type, SQLiteConnector.db_name
+
+    @staticmethod
+    def database_path():
 
         current_file = __file__
 
@@ -59,70 +68,27 @@ class SQLiteConnector(CollectEnvironmentalValues):
         # Split the path into directory components
         components = current_file_path.split(os.path.sep)
 
-        db_name = None
-
-        from core.Environment.CollectEnvironmentalValues import CollectEnvironmentalValues
-        for key, value in CollectEnvironmentalValues.app_credentials.items():
-            if 'NAME' in key:
-                db_name = value
+        project_name = 'PyQt6-test'
 
         # Find the index of the directory you want to consider as the project root
-        index = components.index(db_name)
+        index = components.index(project_name)
 
         # Join the directory components up to the project root index
         project_root = os.path.sep.join(components[:index + 1])
 
-        return project_root
+        return f"{project_root}/src/db/LearningQt.sqlite"
 
-    def database_path(self):
-
-        # set connection credentials
-        self.set_env()
-
-        project_root = self.project_root()
-        source_directory = "src"
-        db_directory = "db"
-        db_name = self.db_name
-
-        if db_name is None:
-            ValueError("db_name has not been set.")
-
-        # Verify if project_root and db_directory exist
-        if not os.path.exists(project_root):
-            raise Error(f"There's something wrong as '{project_root}' does not exist!")
-
-        src_path = os.path.join(project_root, source_directory)
-        db_directory_path = src_path + "/" + db_directory
-
-        if os.path.exists(src_path) and not os.path.exists(db_directory_path):
-            os.makedirs(db_directory_path, exist_ok=True)
-
-        if not os.path.exists(db_directory_path):
-            print("Database directory path has not been found!")
-
-        db_path = db_directory_path + "/" + self.db_name + ".sqlite"
-
-        if os.path.exists(db_directory_path):
-            self.db_path = db_path
-        else:
-            print("Database directory does not exist:", db_directory_path)
-
-    def initialize_connection(self):
+    @staticmethod
+    def initialize_connection():
 
         """
             Create database functionality (initialization process, one task only)
             :return:
         """
 
-        # set connection credentials
-        self.set_env()
-
-        # set database path
-        self.database_path()
-
-        # set credentials to this scope for easy usage
-        db_type = self.db_type
-        db_path = self.db_path
+        # set launch properties
+        db_path = SQLiteConnector.database_path()
+        db_type = "QSQLITE"
 
         # set database connection (driver)
         connection = QSqlDatabase.addDatabase(db_type, db_path)
@@ -141,6 +107,10 @@ class SQLiteConnector(CollectEnvironmentalValues):
                 connection.setDatabaseName(db_path)
                 connection.open()
 
+                # create user table
+                from core.Database.Connectors.SQLite.CreateTables import CreateTable
+                CreateTable.create_users()
+
                 # final check if the execution was successful
                 if os.path.exists(db_path):
                     print("Database connection has been created successfully!")
@@ -149,7 +119,8 @@ class SQLiteConnector(CollectEnvironmentalValues):
             except Error as e:
                 raise Error(f"Could not create database: {e}")
 
-    def open_connection(self):
+    @staticmethod
+    def open_connection():
 
         """
         This functionality is capable of opening the existing connection to the database.
@@ -158,15 +129,8 @@ class SQLiteConnector(CollectEnvironmentalValues):
         :return:
         """
 
-        # set connection credentials
-        self.set_env()
-
-        # set database path
-        self.database_path()
-
-        # set credentials to this scope for easy usage
-        db_type = self.db_type
-        db_path = self.db_path
+        # include database path
+        db_path = SQLiteConnector.database_path()
 
         # load driver by declaring path
         connection = QSqlDatabase.database(db_path, open=False)
@@ -184,8 +148,8 @@ class SQLiteConnector(CollectEnvironmentalValues):
             connection.open()
 
             # assign connection objects to class attributes for access to other functions
-            self.connection = connection
-            self.query = QSqlQuery(connection)
+            SQLiteConnector.connection = connection
+            SQLiteConnector.query = QSqlQuery(connection)
 
             # check if the connection could be opened
             if not connection.open():

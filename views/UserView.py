@@ -9,12 +9,10 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
-from core.Controllers.ViewController import ViewController
-from core.Environment.CollectEnvironmentalValues import CollectEnvironmentalValues
-from core.Layout.ManageUi import ManageUi
+from core.Controllers.WindowController import WindowController
 
 
-class UserView(QMainWindow, CollectEnvironmentalValues, ViewController, ManageUi):
+class UserView(QMainWindow, WindowController):
 
     switch_first = QtCore.pyqtSignal()
     switch_second = QtCore.pyqtSignal()
@@ -24,19 +22,7 @@ class UserView(QMainWindow, CollectEnvironmentalValues, ViewController, ManageUi
         super().__init__()
 
         # set layout
-        self.ui = self.load_user_ui()
-
-        # open session since this is a protected view
-        import views.Auth.Sessions.requests as SessionRequests
-        SessionRequests.load_user_session()
-
-        for key, value in CollectEnvironmentalValues.app_credentials.items():
-            if 'NAME' in key:
-                self.setWindowTitle(f"Welcome | {value}")
-
-        # set accessible class
-        from core.Sessions.ManageUserSession import ManageUserSession
-        self.user_sessions = ManageUserSession()
+        self.ui = self.load_ui()
 
         # set navigation
         self.setup_navigation()
@@ -44,10 +30,11 @@ class UserView(QMainWindow, CollectEnvironmentalValues, ViewController, ManageUi
         # show view content
         self.content()
 
-        # session can be closed
-        self.user_sessions.close_session()
-
-        # TODO: logout means returning back to view and clearing session
+    def load_ui(self):
+        from src.gui.ui.user.UserWindow import Ui_UserWindow
+        ui = Ui_UserWindow()
+        ui.setupUi(self)
+        return ui
 
     def setup_navigation(self):
 
@@ -64,10 +51,7 @@ class UserView(QMainWindow, CollectEnvironmentalValues, ViewController, ManageUi
         # set ui within scope
         ui = self.ui
 
-        # declare session
-        session = self.user_sessions.settings
-
-        ui.welcomeUser.setText(f"Welcome, { session.value('firstname') }!")
+        ui.welcomeUser.setText(f"Welcome")
 
         ui.userIntroductionLabel.setText("You're successfully logged in now, this area is all about showing you "
                                          "some data coming from the database behind this app.")

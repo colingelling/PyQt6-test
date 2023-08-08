@@ -7,7 +7,7 @@
 
 from sqlite3 import Error
 
-from core.Database.Connectors.SQLiteConnector import SQLiteConnector
+from core.Database.Connectors.SQLite.Connector import SQLiteConnector
 
 
 class User(SQLiteConnector):
@@ -17,17 +17,17 @@ class User(SQLiteConnector):
         Actions in order to manage particular things like creating users, logging in and logging out
     """
 
-    form_data = {}
     user_data = {}
     user_ids = []
 
     def __init__(self):
         SQLiteConnector.__init__(self)
 
-    def create_user(self):
+    @staticmethod
+    def create_user(form_information):
 
         # receive both keys and values from form field data (put into Dictionary)
-        form_data = dict(self.form_data)
+        form_data = dict(form_information)
 
         # iterate over individual values
         form_values = [form_data.get(key) for key in form_data]
@@ -46,9 +46,9 @@ class User(SQLiteConnector):
         hashed_str = bcrypt.hashpw(encrypted_password, salt_object)
         password_hash = hashed_str.decode("utf-8")
 
-        # TODO: end block
-
-        self.open_connection()
+        # open the connection
+        db_class = SQLiteConnector()
+        db_class.open_connection()
 
         # bind attributes to credentials (set all form fields here)
         firstname = form_data['firstname']
@@ -56,9 +56,8 @@ class User(SQLiteConnector):
         lastname = form_data['lastname']
         username = form_data['username']
         email = form_data['email']
-        password = form_data['password']
 
-        connection = self.connection
+        connection = db_class.connection
         if not connection.isValid():
             raise ValueError("Connection is invalid.")
 
@@ -78,19 +77,19 @@ class User(SQLiteConnector):
                 'created_at': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
 
-            # Build the SQL query string
+            # build the SQL query string
             columns = ', '.join(query_data.keys())
             placeholders = ', '.join([':{}'.format(key) for key in query_data.keys()])
-            query_string = f"INSERT INTO users ({columns}, created_at) VALUES ({placeholders}, :created_at)"
+            query_string = f"INSERT INTO users ({columns}) VALUES ({placeholders})"
 
             # prepare the query
-            query = self.query
+            query = SQLiteConnector.query
             query.prepare(query_string)
 
-            # Bind the values to the placeholders (excluding created_at)
-            for key, value in query_data.items():
+            # bind values to query
+            for key in query_data.keys():
                 if key != 'created_at':
-                    query.bindValue(f":{key}", value)
+                    query.bindValue(":" + key, query_data[key])
 
             # bind the created_at value separately
             query.bindValue(":created_at", query_data['created_at'])
@@ -99,35 +98,35 @@ class User(SQLiteConnector):
             if not query.exec():
                 raise Error("Error adding user:", query.lastError().text())
 
-            print("User has been created!")
             connection.commit()
+
+            print("User has been created, you can go to the login window now!")
 
         except sqlite3.Error as error:
             print("This program could not create the user:", error)
 
-        # TODO: self.close_connection doesn't work properly yet
-        # self.close_connection()
+    @staticmethod
+    def login_user(form_information, window_switch):
 
-    def login_user(self):
+        from core.Database.Connectors.SQLite.Connector import SQLiteConnector
+        db_class = SQLiteConnector()
 
-        # set an open connection
-        self.open_connection()
+        # open the connection
+        db_class.open_connection()
 
-        # declare the connection
-        connection = self.connection
-
-        # check whether the connection is usable or not
+        # verify connection
+        connection = db_class.connection
         if not connection.isValid():
-            raise Error("No valid connection")
+            raise ValueError("Connection is invalid.")
 
         # set attributes
         user = None
         password = None
 
         # retrieve keys and value pairs and assign them to attributes within this scope
-        data = dict(self.form_data)
-        user = data.get('user')
-        password = data.get('password')
+        form_data = dict(form_information)
+        user = form_data.get('user')
+        password = form_data.get('password')
 
         if not user or not password:
             raise ValueError("The username or email address and password are missing")
@@ -135,17 +134,17 @@ class User(SQLiteConnector):
         query_string = f"SELECT id, email, username, password FROM users WHERE email = '{user}' " \
                        f"OR username = '{user}'"
 
-        query = self.query
+        query = db_class.query
         query.prepare(query_string)
 
-        # execute the query (getting all results)
+        # verify that the query can be executed or that there is an issue here
         if not query.exec():
             raise Error("Error executing the query:", query.lastError().text())
 
         # filter trough every row of results according to the command execution
         if not query.next():
             print("No user found with the provided email or username.")
-            return
+            return False
 
         # get the column names of the data that was received
         column_names = [query.record().fieldName(i) for i in range(query.record().count())]
@@ -164,13 +163,15 @@ class User(SQLiteConnector):
         # are the passwords matching?
         if not hashed_password.encode('utf-8') == hashed_entered_password:
             print("Password does not match with the user. Login failed.")
-            return
+            return False  # Indicate login failure
 
-        print("Password matched. User passed the login checks and the session has been prepared.")
+        print("Password matched. User passed the login checks and has been send to the authenticated window.")
 
-        # fill the class attribute dictionary for preparing a session
-        user_data = {'id': query.value(query.record().indexOf('id'))}
-        self.user_data = dict(user_data)
+        window_switch.emit()
+
+        return True  # Indicate login success
+
+
 
     def get_user_ids(self):
 

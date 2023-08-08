@@ -9,71 +9,57 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMainWindow
 
-from core.Controllers.ViewController import ViewController
-from core.Modules.ManageRegister import ManageRegister
-from core.Layout.ManageUi import ManageUi
+from core.Controllers.WindowController import WindowController
 
 
-class RegisterView(QMainWindow, ViewController, ManageUi, ManageRegister):
+class RegisterView(QMainWindow, WindowController):
 
-    switch_first = QtCore.pyqtSignal(str)
-    switch_second = QtCore.pyqtSignal(str)
-    switch_third = QtCore.pyqtSignal(str)
+    switch_home = QtCore.pyqtSignal()
+    switch_register = QtCore.pyqtSignal()
+    switch_login = QtCore.pyqtSignal()
 
     def __init__(self):
         super().__init__()
 
         # set Ui (must happen before doing anything else because any alterations to the window won't work)
-        self.ui = self.load_register_ui()
+        self.ui = self.load_ui()
 
-        for key, value in self.app_credentials.items():
-            if 'NAME' in key:
-                self.window_title = 'Register'
-                self.setWindowTitle(f"{self.window_title}: { value }")
-
-        self.home_nav = None
-        self.register_nav = None
-        self.login_nav = None
+        self.setWindowTitle(f"Register")
 
         self.setup_navigation()
-
-        self.form_data = {}
 
         # show the ui elements
         self.show_content()
 
+    def load_ui(self):
+        from src.gui.ui.register.RegisterWindow import Ui_RegisterWindow
+        ui = Ui_RegisterWindow()
+        ui.setupUi(self)
+        return ui
+
     def setup_navigation(self):
-
-        button_home = QAction("Home", self)
-        button_register = QAction("Register", self)
-        button_login = QAction("Login", self)
-
-        button_home.triggered.connect(self.switch_home_window)
-        button_register.triggered.connect(self.switch_register_window)
-        button_login.triggered.connect(self.switch_login_window)
-
-        self.home_nav = button_home
-        self.register_nav = button_register
-        self.login_nav = button_login
-
-    def show_content(self):
 
         ui = self.ui
 
-        # Navigation
-
         button_home = QAction("Home", self)
         button_register = QAction("Register", self)
         button_login = QAction("Login", self)
 
+        # noinspection PyUnresolvedReferences
         button_home.triggered.connect(self.switch_home_window)
+        # noinspection PyUnresolvedReferences
         button_register.triggered.connect(self.switch_register_window)
+        # noinspection PyUnresolvedReferences
         button_login.triggered.connect(self.switch_login_window)
 
         menubar = ui.menuBar
         menubar.addAction(button_home)
         menubar.addAction(button_register)
         menubar.addAction(button_login)
+
+    def show_content(self):
+
+        ui = self.ui
 
         ui.RegisterViewTitleLabel.setText("Register")
         ui.RegisterViewTitleLabel.adjustSize()
@@ -82,9 +68,6 @@ class RegisterView(QMainWindow, ViewController, ManageUi, ManageRegister):
         ui.RegisterViewDescriptionLabel.adjustSize()
 
         from PyQt6.QtCore import Qt
-
-        # TODO 's:
-        #  Check whether form fields are empty or not within the view side instead of here
 
         ui.RegisterFormFirstnameLabel.setText("Firstname")
         ui.RegisterFormFirstnameLabel.adjustSize()
@@ -146,7 +129,7 @@ class RegisterView(QMainWindow, ViewController, ManageUi, ManageRegister):
         password = ui.RegisterFormPasswordLineEdit_1.text()
         confirmed_password = ui.RegisterFormPasswordLineEdit_2.text()
 
-        self.form_data = {
+        form_information = {
             'firstname': firstname,
             'suffix': suffix,
             'lastname': lastname,
@@ -157,13 +140,15 @@ class RegisterView(QMainWindow, ViewController, ManageUi, ManageRegister):
         }
 
         # forward to the actual submit process
-        self.submit()
+        from core.Models.User import User
+        model = User()
+        return model.create_user(form_information)
 
     def switch_home_window(self):
-        self.show_home()
+        self.switch_home.emit()
 
     def switch_register_window(self):
-        self.show_register()
+        self.switch_register.emit()
 
     def switch_login_window(self):
-        self.show_login()
+        self.switch_login.emit()
